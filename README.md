@@ -5,3 +5,14 @@
 서주원: 조장 <br>
 강재현 <br>
 양희산 <br>
+
+
+## Directory
+```
+.
++-- Android
+|
++-- Design
+|
++-- images
+```

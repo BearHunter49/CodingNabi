@@ -1,3 +1,2 @@
-### Android
----
-안드로이드 app
+# Android
+[Wiki](https://github.com/BearHunter49/CodingNabi/wiki/Android)

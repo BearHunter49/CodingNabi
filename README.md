@@ -10,7 +10,7 @@
 ## Directory
 ```
 .
-+-- Android
++-- Android/CodingNabi
 |
 +-- Design
 |

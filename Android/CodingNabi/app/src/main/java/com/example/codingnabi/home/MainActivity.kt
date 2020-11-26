@@ -1,7 +1,9 @@
-package com.example.codingnabi
+package com.example.codingnabi.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.codingnabi.R
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -10,6 +12,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        Timber.i("App Start!")
     }
 }

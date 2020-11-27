@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CodingNabi</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_controller">컨트롤러</string>
+    <string name="title_level_select">문제 풀기</string>
+    <string name="title_home">홈</string>
+    <string name="text_description">블록을 통해 코딩을 배워보세요!</string>
 </resources>

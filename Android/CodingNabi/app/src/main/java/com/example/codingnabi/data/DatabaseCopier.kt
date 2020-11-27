@@ -10,7 +10,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 object DatabaseCopier {
-    private const val TAG = "DatabaseCopier"
     private const val DATABASE_NAME = "codingnabi.db"
     private var instance: AppDatabase? = null
     private lateinit var version: String

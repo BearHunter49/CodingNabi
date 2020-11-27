@@ -8,4 +8,8 @@ class CodingNabiApplication : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
     }
+
+    companion object{
+        var databaseFileVersion = "0"
+    }
 }

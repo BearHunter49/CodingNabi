@@ -17,11 +17,12 @@ import androidx.room.PrimaryKey
             parentColumns = ["id"],
             childColumns = ["video_id"],
             onDelete = ForeignKey.CASCADE
-        )]
+        )],
+    primaryKeys = ["category, level"]
 )
 data class Problem(
-    @PrimaryKey val id: Int,
-    @ColumnInfo(name = "level") val level: Int,
+    val category: String,
+    val level: Int,
     @ColumnInfo(name = "available_blocks") val usableBlocks: String,
     @ColumnInfo(name = "description_id") val descriptionId: Int,
     @ColumnInfo(name = "video_id") val videoId: Int

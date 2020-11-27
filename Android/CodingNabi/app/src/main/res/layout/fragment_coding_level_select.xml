@@ -4,56 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".blockcoding.CodingLevelSelectFragment">
 
-        <ScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_with_status_bar"
+                android:text="@string/text_level_select_description" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/LevelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_basic" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_basic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="4" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_with_status_bar"
-                    tools:text="sdfsdfsdf" />
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/LevelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_advance" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/LevelTitle"
-                    tools:text="Level1"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_advance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="4" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="4"/>
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/LevelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_loop" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/LevelTitle"
-                    tools:text="Level2"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_loop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="4" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="4"/>
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/LevelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_function" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_function"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="4" />
 
-            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"/>
 
+        </LinearLayout>
 
-        </ScrollView>
-
-
-
+    </ScrollView>
 
 </layout>

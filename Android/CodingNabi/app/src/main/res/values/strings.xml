@@ -6,4 +6,9 @@
     <string name="title_level_select">문제 풀기</string>
     <string name="title_home">홈</string>
     <string name="text_description">블록을 통해 코딩을 배워보세요!</string>
+    <string name="text_level_select_description">단계별로 풀어나가보세요!</string>
+    <string name="text_basic">Basic</string>
+    <string name="text_advance">Advance</string>
+    <string name="text_loop">Loop</string>
+    <string name="text_function">Function</string>
 </resources>

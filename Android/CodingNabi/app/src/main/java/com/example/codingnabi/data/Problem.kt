@@ -20,7 +20,8 @@ import androidx.room.PrimaryKey
         )]
 )
 data class Problem(
-    @PrimaryKey val title: String,
+    @PrimaryKey val id: Int,
+    @ColumnInfo(name = "level") val level: Int,
     @ColumnInfo(name = "available_blocks") val usableBlocks: String,
     @ColumnInfo(name = "description_id") val descriptionId: Int,
     @ColumnInfo(name = "video_id") val videoId: Int

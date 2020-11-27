@@ -31,6 +31,9 @@ class MainActivity : AppCompatActivity() {
         initDatabaseFileCopy()
     }
 
+    /**
+     * DB 파일을 복사함과 동시에 Repository 인스턴스를 모두 생성한다.
+     */
     private fun initDatabaseFileCopy() {
         job = CoroutineScope(Dispatchers.IO).launch {
             DatabaseCopier.downloadLocalDatabase(this@MainActivity)

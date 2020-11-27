@@ -5,4 +5,8 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
+    <style name="LevelTitle" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:layout_margin">20dp</item>
+    </style>
+
 </resources>

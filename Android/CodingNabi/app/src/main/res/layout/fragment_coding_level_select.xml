@@ -20,6 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                style="?attr/textAppearanceHeadline6"
                 android:layout_marginTop="@dimen/margin_with_status_bar"
                 android:text="@string/text_level_select_description" />
 

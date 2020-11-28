@@ -1,11 +1,17 @@
 package com.example.codingnabi.data
 
-class ProblemRepository(private val problemDAO: ProblemDAO) {
-    fun getAllProblem() = problemDAO.getAllProblem()
-    fun getProblemsByCategory(category: String) = problemDAO.getProblemsByCategory(category)
-    fun getProblemsByLevel(level: Int) = problemDAO.getProblemsByLevel(level)
-    fun getProblemByCategoryAndLevel(category: String, level: Int) =
-        problemDAO.getProblemByCategoryAndLevel(category, level)
+import android.content.Context
 
-    fun getLevelsByCategory(category: String) = problemDAO.getLevelsByCategory(category)
+class ProblemRepository(private val context: Context) {
+    private val database: AppDatabase by lazy {
+        DatabaseCopier.getInstance(context)
+    }
+
+    suspend fun getAllProblem() = database.problemDAO().getAllProblem()
+    suspend fun getProblemsByCategory(category: String) = database.problemDAO().getProblemsByCategory(category)
+    suspend fun getProblemsByLevel(level: Int) = database.problemDAO().getProblemsByLevel(level)
+    suspend fun getProblemByCategoryAndLevel(category: String, level: Int) =
+        database.problemDAO().getProblemByCategoryAndLevel(category, level)
+
+    suspend fun getLevelsByCategory(category: String) = database.problemDAO().getLevelsByCategory(category)
 }

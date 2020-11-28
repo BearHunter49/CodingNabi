@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.example.codingnabi.R
-import com.example.codingnabi.data.RepositoryFactory
+import com.example.codingnabi.data.ProblemRepository
 import com.example.codingnabi.databinding.FragmentCodingLevelSelectBinding
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -22,10 +22,10 @@ class CodingLevelSelectFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_coding_level_select, container, false)
 
         // Test
-        val problemRepository = RepositoryFactory.getProblemRepository()
+        val problemRepository = ProblemRepository(requireContext())
         CoroutineScope(Dispatchers.IO).launch {
-            val test = problemRepository?.getAllProblem()
-            test?.forEach {
+            val test = problemRepository.getAllProblem()
+            test.forEach {
                 Timber.d(it.toString())
             }
 

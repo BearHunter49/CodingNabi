@@ -8,7 +8,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.codingnabi.R
 import com.example.codingnabi.data.DatabaseCopier
-import com.example.codingnabi.data.RepositoryFactory
 import com.example.codingnabi.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -38,9 +37,9 @@ class MainActivity : AppCompatActivity() {
         Timber.i("init DB Copy")
         job = CoroutineScope(Dispatchers.IO).launch {
             DatabaseCopier.downloadLocalDatabase(this@MainActivity)
-            RepositoryFactory.create(DatabaseCopier.getInstance(this@MainActivity))
 
             withContext(Dispatchers.Main){
+//                delay(2000)
                 stopProgressBar()
             }
         }

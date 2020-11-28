@@ -1,6 +1,12 @@
 package com.example.codingnabi.data
 
-class VideoRepository(private val videoDAO: VideoDAO) {
-    suspend fun getAllVideo() = videoDAO.getAllVideo()
-    suspend fun getVideoById(id: Int) = videoDAO.getVideoById(id)
+import android.content.Context
+
+class VideoRepository(private val context: Context) {
+    private val database: AppDatabase by lazy {
+        DatabaseCopier.getInstance(context)
+    }
+
+    suspend fun getAllVideo() = database.videoDAO().getAllVideo()
+    suspend fun getVideoById(id: Int) = database.videoDAO().getVideoById(id)
 }

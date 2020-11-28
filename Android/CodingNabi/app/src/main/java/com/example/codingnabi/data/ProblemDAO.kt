@@ -1,7 +1,9 @@
 package com.example.codingnabi.data
 
+import androidx.room.Dao
 import androidx.room.Query
 
+@Dao
 interface ProblemDAO {
     @Query("SELECT * FROM problem")
     fun getAllProblem(): Array<Problem>

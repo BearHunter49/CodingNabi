@@ -10,15 +10,13 @@ import androidx.room.PrimaryKey
         entity = Description::class,
         parentColumns = ["id"],
         childColumns = ["description_id"],
-        onDelete = ForeignKey.CASCADE
     ),
         ForeignKey(
             entity = Video::class,
             parentColumns = ["id"],
             childColumns = ["video_id"],
-            onDelete = ForeignKey.CASCADE
         )],
-    primaryKeys = ["category, level"]
+    primaryKeys = ["category", "level"]
 )
 data class Problem(
     val category: String,

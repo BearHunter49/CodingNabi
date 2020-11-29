@@ -76,17 +76,4 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         job.cancel()  // Cancel coroutine
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        time.add(System.currentTimeMillis())
-        Toast.makeText(this, "뒤로가기를 한번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG).show()
-
-        if (time.size >= 2) {
-            if (time[1] - time[0] <= 2000) {
-                super.onBackPressed()
-            }
-            time.clear()
-        }
-    }
 }

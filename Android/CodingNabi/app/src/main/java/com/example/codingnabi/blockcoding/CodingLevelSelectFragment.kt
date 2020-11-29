@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.navGraphViewModels
 import com.example.codingnabi.R
 import com.example.codingnabi.adapter.ProblemAdapter
@@ -27,13 +28,10 @@ class CodingLevelSelectFragment : Fragment() {
             container,
             false
         )
-        binding.apply {
-            lifecycleOwner = this@CodingLevelSelectFragment
-            viewModel = viewModel
-        }
+        binding.lifecycleOwner = this@CodingLevelSelectFragment
+        binding.viewModel = viewModel
 
         setAdapter()
-
 //        viewModel.basicProblems.observe(viewLifecycleOwner) {
 //            for (data in it) {
 //                Timber.d("$data")
@@ -56,6 +54,11 @@ class CodingLevelSelectFragment : Fragment() {
         super.onStart()
         activity?.findViewById<BottomNavigationView>(R.id.home_bottom_navigation)?.visibility =
             View.VISIBLE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("onDestroy called")
     }
 
 }

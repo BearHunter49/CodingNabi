@@ -44,7 +44,8 @@
             android:layout_centerVertical="true"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_check"
-            android:visibility="@{problem.isCleared == 0 ? View.GONE : View.VISIBLE}"
+            android:visibility="gone"
+            app:setVisibility="@{problem.isCleared}"
             app:tint="@color/green" />
 
     </RelativeLayout>

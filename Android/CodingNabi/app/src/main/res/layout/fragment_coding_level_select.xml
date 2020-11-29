@@ -5,18 +5,31 @@
     tools:context=".blockcoding.CodingLevelSelectFragment">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.example.codingnabi.blockcoding.CodingLevelSelectViewModel" />
     </data>
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/level_progressbar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:indeterminate="true"
+        android:visibility="@{viewModel.isDrawing == true ? View.VISIBLE : View.GONE}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:visibility="@{viewModel.isDrawing == true ? View.GONE : View.VISIBLE}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,5 +109,6 @@
         </LinearLayout>
 
     </ScrollView>
+    </RelativeLayout>
 
 </layout>

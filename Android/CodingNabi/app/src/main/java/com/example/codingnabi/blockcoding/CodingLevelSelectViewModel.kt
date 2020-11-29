@@ -9,6 +9,7 @@ import com.example.codingnabi.data.repository.VideoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(application) {
     // LiveData
@@ -35,6 +36,10 @@ class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(ap
         VideoRepository(application)
     }
 
+    // etc
+    private val _isDrawing = MutableLiveData(true)
+    val isDrawing: LiveData<Boolean> = _isDrawing
+
 
     init {
         viewModelScope.launch {
@@ -43,6 +48,7 @@ class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(ap
     }
 
     private suspend fun getProblems() {
+        Timber.i("getProblems() called")
         withContext(Dispatchers.IO){
             val basics = problemRepository.getProblemsByCategory("basic")
             val advances = problemRepository.getProblemsByCategory("advance")
@@ -57,5 +63,6 @@ class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(ap
             }
 
         }
+        _isDrawing.value = false
     }
 }

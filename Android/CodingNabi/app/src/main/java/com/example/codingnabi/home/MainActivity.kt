@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var job: Job
     private lateinit var prefs: SharedPreferences
+    private val time = mutableListOf<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_CodingNabi)
@@ -73,5 +75,18 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()  // Cancel coroutine
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        time.add(System.currentTimeMillis())
+        Toast.makeText(this, "뒤로가기를 한번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG).show()
+
+        if (time.size >= 2) {
+            if (time[1] - time[0] <= 2000) {
+                super.onBackPressed()
+            }
+            time.clear()
+        }
     }
 }

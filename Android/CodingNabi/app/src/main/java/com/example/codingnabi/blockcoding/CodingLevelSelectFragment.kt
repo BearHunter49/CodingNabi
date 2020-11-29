@@ -10,6 +10,7 @@ import androidx.navigation.navGraphViewModels
 import com.example.codingnabi.R
 import com.example.codingnabi.adapter.ProblemAdapter
 import com.example.codingnabi.databinding.FragmentCodingLevelSelectBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import timber.log.Timber
 
 class CodingLevelSelectFragment : Fragment() {
@@ -20,17 +21,24 @@ class CodingLevelSelectFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_coding_level_select, container, false)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_coding_level_select,
+            container,
+            false
+        )
+        binding.apply {
+            lifecycleOwner = this@CodingLevelSelectFragment
+            viewModel = viewModel
+        }
 
         setAdapter()
 
-        viewModel.basicProblems.observe(viewLifecycleOwner){
-            for (data in it){
-                Timber.d("$data")
-            }
-        }
+//        viewModel.basicProblems.observe(viewLifecycleOwner) {
+//            for (data in it) {
+//                Timber.d("$data")
+//            }
+//        }
 
         return binding.root
     }
@@ -42,6 +50,12 @@ class CodingLevelSelectFragment : Fragment() {
             recyclerviewLoop.adapter = ProblemAdapter()
             recyclerviewFunction.adapter = ProblemAdapter()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.findViewById<BottomNavigationView>(R.id.home_bottom_navigation)?.visibility =
+            View.VISIBLE
     }
 
 }

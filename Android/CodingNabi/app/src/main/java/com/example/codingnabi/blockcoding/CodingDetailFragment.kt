@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.codingnabi.R
 import com.example.codingnabi.databinding.FragmentCodingDetailBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class CodingDetailFragment : Fragment() {
     private lateinit var binding: FragmentCodingDetailBinding
@@ -16,6 +17,9 @@ class CodingDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCodingDetailBinding.inflate(inflater)
+
+        activity?.findViewById<BottomNavigationView>(R.id.home_bottom_navigation)?.visibility =
+            View.GONE
 
         binding.apply {
             textCategory.text = arguments?.getString("category")

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.example.codingnabi.utils.BindingUtilsKt" />
+
+        <variable
+            name="problem"
+            type="com.example.codingnabi.data.entity.Problem" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/problem_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/white"
+        android:elevation="5dp"
+        android:onClick="@{view -> BindingUtilsKt.goCodingDetail(view, problem.category, problem.level)}">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_level"
+            style="?attr/textAppearanceButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{BindingUtilsKt.getPrefixByCategory(problem.category) + problem.level}"
+            android:textSize="25sp"
+            tools:text="L1" />
+
+        <ImageView
+            android:id="@+id/image_is_cleared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_check"
+            android:visibility="@{problem.isCleared == 0 ? View.GONE : View.VISIBLE}"
+            app:tint="@color/green" />
+
+    </RelativeLayout>
+
+</layout>

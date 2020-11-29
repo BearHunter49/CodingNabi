@@ -1,7 +1,8 @@
-package com.example.codingnabi.data
+package com.example.codingnabi.data.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import com.example.codingnabi.data.entity.Description
 
 @Dao
 interface DescriptionDAO {

@@ -9,7 +9,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.codingnabi.R
 import com.example.codingnabi.data.DatabaseCopier
-import com.example.codingnabi.data.ProblemRepository
 import com.example.codingnabi.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 import timber.log.Timber

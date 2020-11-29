@@ -1,19 +1,15 @@
 package com.example.codingnabi.blockcoding
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.navGraphViewModels
 import com.example.codingnabi.R
-import com.example.codingnabi.data.ProblemRepository
+import com.example.codingnabi.adapter.ProblemAdapter
 import com.example.codingnabi.databinding.FragmentCodingLevelSelectBinding
-import kotlinx.coroutines.*
 import timber.log.Timber
 
 class CodingLevelSelectFragment : Fragment() {
@@ -25,15 +21,27 @@ class CodingLevelSelectFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_coding_level_select, container, false)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
-        viewModel.basicProblem.observe(viewLifecycleOwner){
+        setAdapter()
+
+        viewModel.basicProblems.observe(viewLifecycleOwner){
             for (data in it){
                 Timber.d("$data")
             }
-
         }
 
         return binding.root
+    }
+
+    private fun setAdapter() {
+        binding.apply {
+            recyclerviewBasic.adapter = ProblemAdapter()
+            recyclerviewAdvance.adapter = ProblemAdapter()
+            recyclerviewLoop.adapter = ProblemAdapter()
+            recyclerviewFunction.adapter = ProblemAdapter()
+        }
     }
 
 }

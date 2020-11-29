@@ -6,7 +6,10 @@
     </style>
 
     <style name="LevelTitle" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="android:layout_margin">20dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
     </style>
 
 </resources>

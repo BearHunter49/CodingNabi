@@ -4,6 +4,12 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.codingnabi.data.dao.DescriptionDAO
+import com.example.codingnabi.data.dao.ProblemDAO
+import com.example.codingnabi.data.dao.VideoDAO
+import com.example.codingnabi.data.entity.Description
+import com.example.codingnabi.data.entity.Problem
+import com.example.codingnabi.data.entity.Video
 
 @Database(
     entities = [Problem::class, Description::class, Video::class],

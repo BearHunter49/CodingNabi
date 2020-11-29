@@ -1,7 +1,9 @@
-package com.example.codingnabi.data
+package com.example.codingnabi.data.repository
 
 import android.app.Application
-import android.content.Context
+import com.example.codingnabi.data.AppDatabase
+import com.example.codingnabi.data.DatabaseCopier
+import com.example.codingnabi.data.entity.Problem
 
 class ProblemRepository(private val application: Application) {
     private val database: AppDatabase by lazy {

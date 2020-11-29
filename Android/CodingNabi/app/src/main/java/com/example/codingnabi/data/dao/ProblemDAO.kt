@@ -1,8 +1,9 @@
-package com.example.codingnabi.data
+package com.example.codingnabi.data.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Update
+import com.example.codingnabi.data.entity.Problem
 
 @Dao
 interface ProblemDAO {

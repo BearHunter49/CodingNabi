@@ -2,15 +2,18 @@ package com.example.codingnabi.blockcoding
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.codingnabi.data.Problem
-import com.example.codingnabi.data.ProblemRepository
+import com.example.codingnabi.data.repository.DescriptionRepository
+import com.example.codingnabi.data.entity.Problem
+import com.example.codingnabi.data.repository.ProblemRepository
+import com.example.codingnabi.data.repository.VideoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(application) {
+    // LiveData
     private val _basicProblems = MutableLiveData<List<Problem>>()
-    val basicProblem: LiveData<List<Problem>> = _basicProblems
+    val basicProblems: LiveData<List<Problem>> = _basicProblems
 
     private val _advanceProblems = MutableLiveData<List<Problem>>()
     val advanceProblems: LiveData<List<Problem>> = _advanceProblems
@@ -21,9 +24,17 @@ class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(ap
     private val _functionProblems = MutableLiveData<List<Problem>>()
     val functionProblems: LiveData<List<Problem>> = _functionProblems
 
+    // Repository
     private val problemRepository: ProblemRepository by lazy {
         ProblemRepository(application)
     }
+    private val descriptionRepository: DescriptionRepository by lazy {
+        DescriptionRepository(application)
+    }
+    private val videoRepository: VideoRepository by lazy {
+        VideoRepository(application)
+    }
+
 
     init {
         viewModelScope.launch {
@@ -33,10 +44,16 @@ class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(ap
 
     private suspend fun getProblems() {
         withContext(Dispatchers.IO){
-            val test = problemRepository.getAllProblem()
+            val basics = problemRepository.getProblemsByCategory("basic")
+            val advances = problemRepository.getProblemsByCategory("advance")
+            val loops = problemRepository.getProblemsByCategory("loop")
+            val functions = problemRepository.getProblemsByCategory("function")
 
             withContext(Dispatchers.Main){
-                _basicProblems.value = test
+                _basicProblems.value = basics
+                _advanceProblems.value = advances
+                _loopProblems.value = loops
+                _functionProblems.value = functions
             }
 
         }

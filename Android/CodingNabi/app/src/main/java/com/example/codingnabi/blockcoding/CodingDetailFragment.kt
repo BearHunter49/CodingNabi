@@ -6,15 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.codingnabi.R
+import com.example.codingnabi.databinding.FragmentCodingDetailBinding
 
 class CodingDetailFragment : Fragment() {
+    private lateinit var binding: FragmentCodingDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_coding_detail, container, false)
+        binding = FragmentCodingDetailBinding.inflate(inflater)
+
+        binding.apply {
+            textCategory.text = arguments?.getString("category")
+            textLevel.text = arguments?.getInt("level").toString()
+        }
+
+        return binding.root
     }
 
 }

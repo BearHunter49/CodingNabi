@@ -20,7 +20,7 @@ object DatabaseCopier {
         }
     }
 
-    fun downloadLocalDatabase(context: Context){
+    fun downloadLocalDatabase(context: Context) {
         Timber.i("downloadLocalDatabase 실행")
 
         val path = context.getDatabasePath(DATABASE_NAME)
@@ -28,7 +28,7 @@ object DatabaseCopier {
         version = PackageInfoCompat.getLongVersionCode(info).toString()
 
         // DB File not exists
-        if (!path.exists()){
+        if (!path.exists()) {
             // Make directory
             path.parentFile?.mkdirs() ?: Timber.e("There is no ParentFile of $path")
         }
@@ -53,7 +53,7 @@ object DatabaseCopier {
             val buffer = ByteArray(bufferSize)
 
             // Copy loop
-            while (true){
+            while (true) {
                 val length = inputStream.read(buffer, 0, bufferSize)
                 if (length <= 0) break
                 output.write(buffer, 0, length)
@@ -62,7 +62,7 @@ object DatabaseCopier {
             output.flush()
             output.close()
             inputStream.close()
-        }catch (e: IOException){
+        } catch (e: IOException) {
             Timber.e("Database File Copy Error!")
         }
     }

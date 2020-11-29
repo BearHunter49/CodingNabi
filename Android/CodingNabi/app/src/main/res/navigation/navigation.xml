@@ -15,59 +15,63 @@
             app:destination="@id/controllerFragment" />
         <action
             android:id="@+id/action_homeFragment_to_codingLevelSelectFragment"
-            app:destination="@id/codingLevelSelectFragment" />
+            app:destination="@id/navigation_coding" />
     </fragment>
     <fragment
         android:id="@+id/controllerFragment"
         android:name="com.example.codingnabi.controller.ControllerFragment"
         android:label="fragment_controller"
         tools:layout="@layout/fragment_controller" />
-    <fragment
-        android:id="@+id/codingLevelSelectFragment"
-        android:name="com.example.codingnabi.blockcoding.CodingLevelSelectFragment"
-        android:label="fragment_coding_level_select"
-        tools:layout="@layout/fragment_coding_level_select" >
-        <action
-            android:id="@+id/action_codingLevelSelectFragment_to_codingDetailFragment"
-            app:destination="@id/codingDetailFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/codingDetailFragment"
-        android:name="com.example.codingnabi.blockcoding.CodingDetailFragment"
-        android:label="fragment_coding_detail"
-        tools:layout="@layout/fragment_coding_detail" >
-        <action
-            android:id="@+id/action_codingDetailFragment_to_codingVideoFragment"
-            app:destination="@id/codingVideoFragment" />
-        <action
-            android:id="@+id/action_codingDetailFragment_to_codingHintFragment"
-            app:destination="@id/codingHintFragment" />
-        <action
-            android:id="@+id/action_codingDetailFragment_to_codingRightFragment"
-            app:destination="@id/codingRightFragment"
-            app:popUpTo="@id/codingLevelSelectFragment" />
-        <action
-            android:id="@+id/action_codingDetailFragment_to_codingWrongFragment"
-            app:destination="@id/codingWrongFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/codingVideoFragment"
-        android:name="com.example.codingnabi.blockcoding.CodingVideoFragment"
-        android:label="fragment_coding_video"
-        tools:layout="@layout/fragment_coding_video" />
-    <fragment
-        android:id="@+id/codingHintFragment"
-        android:name="com.example.codingnabi.blockcoding.CodingHintFragment"
-        android:label="fragment_coding_hint"
-        tools:layout="@layout/fragment_coding_hint" />
-    <fragment
-        android:id="@+id/codingRightFragment"
-        android:name="com.example.codingnabi.blockcoding.CodingRightFragment"
-        android:label="fragment_coding_right"
-        tools:layout="@layout/fragment_coding_right" />
-    <fragment
-        android:id="@+id/codingWrongFragment"
-        android:name="com.example.codingnabi.blockcoding.CodingWrongFragment"
-        android:label="fragment_coding_wrong"
-        tools:layout="@layout/fragment_coding_wrong" />
+
+    <navigation android:id="@+id/navigation_coding"
+        app:startDestination="@id/codingLevelSelectFragment">
+        <fragment
+            android:id="@+id/codingLevelSelectFragment"
+            android:name="com.example.codingnabi.blockcoding.CodingLevelSelectFragment"
+            android:label="fragment_coding_level_select"
+            tools:layout="@layout/fragment_coding_level_select">
+            <action
+                android:id="@+id/action_codingLevelSelectFragment_to_codingDetailFragment"
+                app:destination="@id/codingDetailFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/codingDetailFragment"
+            android:name="com.example.codingnabi.blockcoding.CodingDetailFragment"
+            android:label="fragment_coding_detail"
+            tools:layout="@layout/fragment_coding_detail">
+            <action
+                android:id="@+id/action_codingDetailFragment_to_codingVideoFragment"
+                app:destination="@id/codingVideoFragment" />
+            <action
+                android:id="@+id/action_codingDetailFragment_to_codingHintFragment"
+                app:destination="@id/codingHintFragment" />
+            <action
+                android:id="@+id/action_codingDetailFragment_to_codingRightFragment"
+                app:destination="@id/codingRightFragment"
+                app:popUpTo="@id/codingLevelSelectFragment" />
+            <action
+                android:id="@+id/action_codingDetailFragment_to_codingWrongFragment"
+                app:destination="@id/codingWrongFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/codingHintFragment"
+            android:name="com.example.codingnabi.blockcoding.CodingHintFragment"
+            android:label="fragment_coding_hint"
+            tools:layout="@layout/fragment_coding_hint" />
+        <fragment
+            android:id="@+id/codingWrongFragment"
+            android:name="com.example.codingnabi.blockcoding.CodingWrongFragment"
+            android:label="fragment_coding_wrong"
+            tools:layout="@layout/fragment_coding_wrong" />
+        <fragment
+            android:id="@+id/codingRightFragment"
+            android:name="com.example.codingnabi.blockcoding.CodingRightFragment"
+            android:label="fragment_coding_right"
+            tools:layout="@layout/fragment_coding_right" />
+        <fragment
+            android:id="@+id/codingVideoFragment"
+            android:name="com.example.codingnabi.blockcoding.CodingVideoFragment"
+            android:label="fragment_coding_video"
+            tools:layout="@layout/fragment_coding_video" />
+    </navigation>
 </navigation>

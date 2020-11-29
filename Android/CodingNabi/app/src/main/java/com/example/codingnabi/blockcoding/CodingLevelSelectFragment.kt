@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.navGraphViewModels
 import com.example.codingnabi.R
 import com.example.codingnabi.data.ProblemRepository
 import com.example.codingnabi.databinding.FragmentCodingLevelSelectBinding
@@ -17,7 +18,7 @@ import timber.log.Timber
 
 class CodingLevelSelectFragment : Fragment() {
     private lateinit var binding: FragmentCodingLevelSelectBinding
-    private val viewModel: CodingLevelSelectViewModel by viewModels()
+    private val viewModel: CodingLevelSelectViewModel by navGraphViewModels(R.id.navigation_coding)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +26,12 @@ class CodingLevelSelectFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_coding_level_select, container, false)
 
+        viewModel.basicProblem.observe(viewLifecycleOwner){
+            for (data in it){
+                Timber.d("$data")
+            }
+
+        }
 
         return binding.root
     }

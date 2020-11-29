@@ -6,7 +6,7 @@ import androidx.room.Query
 @Dao
 interface DescriptionDAO {
     @Query("SELECT * FROM description")
-    fun getAllDescription(): Array<Description>
+    fun getAllDescription(): List<Description>
 
     @Query("SELECT * FROM description WHERE id = :id")
     fun getDescriptionById(id: Int): Description

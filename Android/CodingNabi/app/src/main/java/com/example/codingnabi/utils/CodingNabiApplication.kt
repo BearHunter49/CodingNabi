@@ -9,7 +9,4 @@ class CodingNabiApplication : Application() {
         Timber.plant(Timber.DebugTree())
     }
 
-    companion object{
-        var databaseFileVersion = "0"
-    }
 }

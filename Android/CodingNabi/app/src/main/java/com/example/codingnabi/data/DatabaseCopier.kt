@@ -27,15 +27,10 @@ object DatabaseCopier {
         val info = context.packageManager.getPackageInfo(context.packageName, 0)
         version = PackageInfoCompat.getLongVersionCode(info).toString()
 
-        // DB File exists
-        if (path.exists()){
-            Timber.i("DB File exists")
-
-            if (!isSameDatabaseFileVersion()){
-                Timber.i("Database File version 다름")
-                copyDatabaseFile(context, path)
-            }
-            return
+        // DB File not exists
+        if (!path.exists()){
+            // Make directory
+            path.parentFile?.mkdirs() ?: Timber.e("There is no ParentFile of $path")
         }
 
         // DB File not exists
@@ -51,9 +46,6 @@ object DatabaseCopier {
         Timber.i("Database File 복사 시작")
 
         try {
-            // Make directory
-            path?.parentFile?.mkdirs() ?: Timber.e("There is no ParentFile of $path")
-
             val inputStream = context.assets.open("databases/$DATABASE_NAME")
             val output = FileOutputStream(path)
 
@@ -72,13 +64,7 @@ object DatabaseCopier {
             inputStream.close()
         }catch (e: IOException){
             Timber.e("Database File Copy Error!")
-        } finally {
-            CodingNabiApplication.databaseFileVersion = version
         }
-    }
-
-    private fun isSameDatabaseFileVersion(): Boolean{
-        return version == CodingNabiApplication.databaseFileVersion
     }
 
 }

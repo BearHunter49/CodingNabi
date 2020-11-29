@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".blockcoding.CodingLevelSelectFragment">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.codingnabi.blockcoding.CodingLevelSelectViewModel" />
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="4" />
+                app:spanCount="6" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/LevelTitle"
@@ -48,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="4" />
+                app:spanCount="6" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/LevelTitle"
@@ -61,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="4" />
+                app:spanCount="6" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/LevelTitle"
@@ -74,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="4" />
+                app:spanCount="6" />
 
             <View
                 android:layout_width="match_parent"

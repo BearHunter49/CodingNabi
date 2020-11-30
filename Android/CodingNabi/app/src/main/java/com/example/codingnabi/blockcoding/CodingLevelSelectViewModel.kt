@@ -36,7 +36,7 @@ class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(ap
         VideoRepository(application)
     }
 
-    // etc
+    // Progress bar
     private val _isDrawing = MutableLiveData(true)
     val isDrawing: LiveData<Boolean> = _isDrawing
 

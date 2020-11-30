@@ -32,11 +32,6 @@ class CodingLevelSelectFragment : Fragment() {
         binding.viewModel = viewModel
 
         setAdapter()
-//        viewModel.basicProblems.observe(viewLifecycleOwner) {
-//            for (data in it) {
-//                Timber.d("$data")
-//            }
-//        }
 
         return binding.root
     }

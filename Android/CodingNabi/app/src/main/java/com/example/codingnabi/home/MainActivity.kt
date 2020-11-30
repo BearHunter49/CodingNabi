@@ -16,7 +16,7 @@ import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var job: Job
+    private val job = Job()
     private lateinit var prefs: SharedPreferences
     private val time = mutableListOf<Long>()
 
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun initDatabaseFileCopy() {
         Timber.i("start DB Copy")
-        job = CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO + job).launch {
             DatabaseCopier.downloadLocalDatabase(this@MainActivity)
 
             withContext(Dispatchers.Main){

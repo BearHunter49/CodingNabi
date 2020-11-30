@@ -47,7 +47,7 @@
                 app:destination="@id/codingHintFragment" />
             <action
                 android:id="@+id/action_codingDetailFragment_to_codingRightFragment"
-                app:destination="@id/codingRightFragment"
+                app:destination="@id/codingCorrectFragment"
                 app:popUpTo="@id/codingLevelSelectFragment" />
             <action
                 android:id="@+id/action_codingDetailFragment_to_codingWrongFragment"
@@ -64,10 +64,10 @@
             android:label="fragment_coding_wrong"
             tools:layout="@layout/fragment_coding_wrong" />
         <fragment
-            android:id="@+id/codingRightFragment"
-            android:name="com.example.codingnabi.blockcoding.CodingRightFragment"
+            android:id="@+id/codingCorrectFragment"
+            android:name="com.example.codingnabi.blockcoding.CodingCorrectFragment"
             android:label="fragment_coding_right"
-            tools:layout="@layout/fragment_coding_right" />
+            tools:layout="@layout/fragment_coding_correct" />
         <fragment
             android:id="@+id/codingVideoFragment"
             android:name="com.example.codingnabi.blockcoding.CodingVideoFragment"

@@ -8,22 +8,102 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text_category"
+        <LinearLayout
+            android:id="@+id/purpose_layout"
+            app:layout_constraintBottom_toTopOf="@+id/button_problem"
+            app:layout_constraintEnd_toStartOf="@+id/block_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            style="@style/purpose_layout">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/DetailHeadText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_purpose"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_problem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/text_problem"
+            app:layout_constraintBottom_toTopOf="@+id/button_hint"
+            app:layout_constraintEnd_toStartOf="@+id/block_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/purpose_layout" />
+
+        <Button
+            android:id="@+id/button_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_hint"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/block_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_problem" />
+
+
+        <Button
+            android:id="@+id/button_execute"
+            style="@style/DetailButton"
+            android:text="@string/text_execute"
+            app:layout_constraintBottom_toTopOf="@+id/block_layout"
+            app:layout_constraintEnd_toStartOf="@id/button_test"
+            app:layout_constraintStart_toStartOf="@id/block_layout"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_test"
+            style="@style/DetailButton"
+            android:text="@string/text_test"
+            app:layout_constraintBaseline_toBaselineOf="@+id/button_execute"
+            app:layout_constraintEnd_toEndOf="@id/block_layout"
+            app:layout_constraintStart_toEndOf="@id/button_execute"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/block_layout"
+            style="@style/DetailBlockLayout"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/button_execute">
 
-        <TextView
-            android:id="@+id/text_level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/text_category"
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/DetailHeadText"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/text_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/coding_layout"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/block_layout"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/DetailCodingLayout">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_gravity="center_horizontal"
+                style="@style/DetailHeadText"
+                android:text="@string/text_coding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

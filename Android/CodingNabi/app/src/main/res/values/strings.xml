@@ -11,4 +11,11 @@
     <string name="text_advance">Advance</string>
     <string name="text_loop">Loop</string>
     <string name="text_function">Function</string>
+    <string name="text_purpose">학습목표</string>
+    <string name="text_execute">실행</string>
+    <string name="text_test">채점</string>
+    <string name="text_problem">문제보기</string>
+    <string name="text_hint">힌트</string>
+    <string name="text_block">블록</string>
+    <string name="text_coding">코드</string>
 </resources>

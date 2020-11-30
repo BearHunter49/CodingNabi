@@ -15,4 +15,10 @@
     <color name="block_layout">#8540929B</color>
     <color name="coding_layout">#81FFC93C</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="block_up_down">#FFC93C</color>
+    <color name="block_left_right">#ffbcff</color>
+    <color name="block_forward_backward">#98ffa6</color>
+    <color name="block_loop">#ffc0a2</color>
+    <color name="block_function">#c0caff</color>
+
 </resources>

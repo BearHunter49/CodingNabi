@@ -49,6 +49,12 @@ class CodingLevelSelectFragment : Fragment() {
         super.onStart()
         activity?.findViewById<BottomNavigationView>(R.id.home_bottom_navigation)?.visibility =
             View.VISIBLE
+        viewModel.onStart()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.onDestroyView()
     }
 
     override fun onDestroy() {

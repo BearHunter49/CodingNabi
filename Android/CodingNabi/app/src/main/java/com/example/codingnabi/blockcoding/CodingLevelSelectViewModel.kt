@@ -29,16 +29,12 @@ class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(ap
     private val problemRepository: ProblemRepository by lazy {
         ProblemRepository(application)
     }
-    private val descriptionRepository: DescriptionRepository by lazy {
-        DescriptionRepository(application)
-    }
-    private val videoRepository: VideoRepository by lazy {
-        VideoRepository(application)
-    }
 
     // Progress bar
     private val _isDrawing = MutableLiveData(true)
     val isDrawing: LiveData<Boolean> = _isDrawing
+
+    private var _isFirst = true
 
 
     init {
@@ -64,5 +60,14 @@ class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(ap
 
         }
         _isDrawing.value = false
+        _isFirst = false
+    }
+
+    fun onStart(){
+        if (!_isFirst) _isDrawing.value = false
+    }
+
+    fun onDestroyView(){
+        _isDrawing.value = true
     }
 }

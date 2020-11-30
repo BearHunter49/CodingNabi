@@ -18,4 +18,13 @@
     <string name="text_hint">힌트</string>
     <string name="text_block">블록</string>
     <string name="text_coding">코드</string>
+    <string name="block_up">UP</string>
+    <string name="block_down">DOWN</string>
+    <string name="block_left">LEFT</string>
+    <string name="block_right">RIGH</string>
+    <string name="block_forward">FORW</string>
+    <string name="block_backward">BACK</string>
+    <string name="block_loop">LOOP</string>
+    <string name="block_function">FUNC</string>
+    <string name="error">ERR</string>
 </resources>

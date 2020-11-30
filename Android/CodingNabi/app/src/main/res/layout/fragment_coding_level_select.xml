@@ -27,7 +27,7 @@
 
     <ScrollView
         android:id="@+id/scroll_view"
-        android:visibility="@{viewModel.isDrawing == true ? View.GONE : View.VISIBLE}"
+        android:visibility="@{viewModel.isDrawing == true ? View.INVISIBLE : View.VISIBLE}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

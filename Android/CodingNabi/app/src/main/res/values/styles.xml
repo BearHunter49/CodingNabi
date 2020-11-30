@@ -14,10 +14,14 @@
 
     <style name="DetailHeadText" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">@color/black</item>
-        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
     </style>
 
     <style name="DetailButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:elevation">5dp</item>
         <item name="android:textSize">10sp</item>
         <item name="autoSizeTextType">uniform</item>
         <item name="android:layout_width">60dp</item>
@@ -42,12 +46,35 @@
     </style>
 
     <style name="purpose_layout">
+        <item name="android:orientation">vertical</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">200dp</item>
         <item name="android:layout_marginStart">10dp</item>
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginEnd">20dp</item>
         <item name="android:background">@color/purpose_layout</item>
+    </style>
+
+    <style name="DetailContent" parent="">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <style name="DetailButton.Normal" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="elevation">3dp</item>
+    </style>
+
+    <style name="DetailButton.Block" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/black</item>
+        <item name="elevation">3dp</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_width">75dp</item>
+        <item name="android:layout_height">45dp</item>
     </style>
 
 </resources>

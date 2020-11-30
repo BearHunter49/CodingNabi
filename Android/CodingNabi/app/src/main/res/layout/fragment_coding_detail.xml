@@ -10,12 +10,12 @@
 
         <LinearLayout
             android:id="@+id/purpose_layout"
+            style="@style/purpose_layout"
             app:layout_constraintBottom_toTopOf="@+id/button_problem"
             app:layout_constraintEnd_toStartOf="@+id/block_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="spread_inside"
-            style="@style/purpose_layout">
+            app:layout_constraintVertical_chainStyle="spread_inside">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/DetailHeadText"
@@ -25,10 +25,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_purpose"
+                style="@style/DetailContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="드론의 기본적인 움직임을 이해해보자!" />
+
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_problem"
+            style="@style/DetailButton.Normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_problem"
@@ -37,12 +45,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/purpose_layout" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_hint"
+            style="@style/DetailButton.Normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_hint"
             android:layout_marginBottom="20dp"
+            android:text="@string/text_hint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/block_layout"
             app:layout_constraintStart_toStartOf="parent"
@@ -78,32 +87,59 @@
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/DetailHeadText"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/text_block"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/text_block" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/block_content_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                </LinearLayout>
+            </ScrollView>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/coding_layout"
+            style="@style/DetailCodingLayout"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/block_layout"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/DetailCodingLayout">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textview.MaterialTextView
-                android:layout_gravity="center_horizontal"
                 style="@style/DetailHeadText"
-                android:text="@string/text_coding"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/text_coding" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/coding_layout_content"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                </LinearLayout>
+
+            </ScrollView>
 
         </LinearLayout>
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

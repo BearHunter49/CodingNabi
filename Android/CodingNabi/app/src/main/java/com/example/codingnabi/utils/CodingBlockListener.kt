@@ -39,20 +39,25 @@ class CodingLayoutDragListener(val context: Context) : View.OnDragListener{
     override fun onDrag(v: View?, event: DragEvent?): Boolean {
         return when(event?.action){
             DragEvent.ACTION_DRAG_STARTED -> {
-                Timber.d("CodingLayout: Drag Started")
+                Timber.d("Drag Started")
 
                 if (event.clipDescription.label == "usableBlock") {
                     Timber.i("drag started usableBlock")
                     v?.setBackgroundColor(canBeDropped)
                     v?.invalidate()
                     true
-                } else {
+                } else if (event.clipDescription.label == "codingBlock") {
+                    Timber.i("drag started codingBlock")
+                    v?.setBackgroundColor(canBeDropped)
+                    v?.invalidate()
+                    true
+                }else{
                     // Can not be dropped place.
                     false
                 }
             }
             DragEvent.ACTION_DRAG_ENTERED -> {
-                Timber.i("CodingLayout: Drag Entered")
+                Timber.i("Drag Entered")
                 v?.setBackgroundColor(nowOnDropLayout)
                 v?.invalidate()
                 true
@@ -61,32 +66,53 @@ class CodingLayoutDragListener(val context: Context) : View.OnDragListener{
                 true
             }
             DragEvent.ACTION_DRAG_EXITED -> {
-                Timber.i("CodingLayout: Drag Exited")
+                Timber.i("Drag Exited")
                 v?.setBackgroundColor(canBeDropped)
                 v?.invalidate()
                 true
             }
             DragEvent.ACTION_DROP -> {
-                Timber.i("CodingLayout: Drag Dropped")
+                Timber.i("Drag Dropped")
+                if (event.clipDescription.label == "usableBlock"){
+                    Timber.i("Drag Dropped usableBlock")
 
-                val item = event.clipData.getItemAt(0)
-                val dragData = item.text
-                Timber.d("CodingLayout: Dropped data: $dragData")
-                Timber.d("${event.x}, ${event.y}")
+                    val item = event.clipData.getItemAt(0)
+                    val dragData = item.text
+                    Timber.d("CodingLayout: Dropped data: $dragData")
+                    Timber.d("${event.x}, ${event.y}")
 
-                val newBlock = BlockFactory.makeBlockView(context, dragData.toString())
-                newBlock.setOnLongClickListener(CodingBlockLongClickListener())
+                    val newBlock = BlockFactory.makeBlockView(context, dragData.toString())
+                    newBlock.setOnLongClickListener(CodingBlockLongClickListener())
 
-                val contentLayout = v as LinearLayout
-                val position = CodingBlockUtils.calculatePosition(contentLayout, event.y)
+                    val contentLayout = v as LinearLayout
+                    val position = CodingBlockUtils.calculatePosition(contentLayout, event.y)
 
-                contentLayout.addView(newBlock, position)
-                v.invalidate()
+                    contentLayout.addView(newBlock, position)
+                    v.invalidate()
+                }
+                else if (event.clipDescription.label == "codingBlock"){
+                    Timber.i("Drag Dropped codingBlock")
+
+                    val item = event.clipData.getItemAt(0)
+                    val dragData = item.text
+                    Timber.d("Dropped data: $dragData")
+
+                    val originBlock = event.localState as View
+                    val parentView = originBlock.parent as ViewGroup
+                    parentView.removeView(originBlock)
+
+                    val contentLayout = v as LinearLayout
+                    val position = CodingBlockUtils.calculatePosition(contentLayout, event.y)
+
+                    contentLayout.addView(originBlock, position)
+                    originBlock.visibility = View.VISIBLE
+                    v.invalidate()
+                }
 
                 true
             }
             DragEvent.ACTION_DRAG_ENDED -> {
-                Timber.i("CodingLayout: Drag Ended")
+                Timber.i("Drag Ended")
                 v?.setBackgroundColor(originColor)
                 v?.invalidate()
 
@@ -112,7 +138,7 @@ class DeleteImageDragListener(val context: Context) : View.OnDragListener{
     override fun onDrag(v: View?, event: DragEvent?): Boolean {
         return when(event?.action){
             DragEvent.ACTION_DRAG_STARTED -> {
-                Timber.i("DeleteImage: Drag Started")
+                Timber.i("Drag Started")
 
                 if (event.clipDescription.label == "codingBlock") {
                     v?.setBackgroundColor(canBeDropped)
@@ -125,7 +151,7 @@ class DeleteImageDragListener(val context: Context) : View.OnDragListener{
                 }
             }
             DragEvent.ACTION_DRAG_ENTERED -> {
-                Timber.i("DeleteImage: Drag Entered")
+                Timber.i("Drag Entered")
                 v?.setBackgroundColor(nowOnDropLayout)
                 v?.invalidate()
                 true
@@ -134,17 +160,17 @@ class DeleteImageDragListener(val context: Context) : View.OnDragListener{
                 true
             }
             DragEvent.ACTION_DRAG_EXITED -> {
-                Timber.i("DeleteImage: Drag Exited")
+                Timber.i("Drag Exited")
                 v?.setBackgroundColor(canBeDropped)
                 v?.invalidate()
                 true
             }
             DragEvent.ACTION_DROP -> {
-                Timber.i("DeleteImage: Drag Dropped")
+                Timber.i("Drag Dropped")
 
                 val item = event.clipData.getItemAt(0)
                 val dragData = item.text
-                Timber.d("DeleteImage: Dropped data: $dragData")
+                Timber.d("Dropped data: $dragData")
 
                 val originBlock = event.localState as View
                 val parentView = originBlock.parent as ViewGroup
@@ -153,7 +179,7 @@ class DeleteImageDragListener(val context: Context) : View.OnDragListener{
                 true
             }
             DragEvent.ACTION_DRAG_ENDED -> {
-                Timber.i("DeleteImage: Drag Ended")
+                Timber.i("Drag Ended")
                 v?.setBackgroundColor(originColor)
                 v?.invalidate()
 

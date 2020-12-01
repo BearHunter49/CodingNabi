@@ -1,20 +1,17 @@
 package com.example.codingnabi.blockcoding
 
-import android.content.ClipData
-import android.content.ClipDescription
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.viewModels
 import com.example.codingnabi.R
 import com.example.codingnabi.databinding.FragmentCodingDetailBinding
 import com.example.codingnabi.utils.BlockFactory
+import com.example.codingnabi.utils.CodingLayoutDragListener
+import com.example.codingnabi.utils.DeleteImageDragListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.button.MaterialButton
 import timber.log.Timber
 
 class CodingDetailFragment : Fragment() {
@@ -32,6 +29,7 @@ class CodingDetailFragment : Fragment() {
 
         initData()
         subscribeUI()
+        setDragListener()
 
         return binding.root
     }
@@ -54,17 +52,16 @@ class CodingDetailFragment : Fragment() {
 
         viewModel.codingBlocks.observe(viewLifecycleOwner) {
             Timber.i("codingBlocks observed")
-            if (viewModel.canDrawCodingBlock){
-
-            }
+//            if (viewModel.canDrawCodingBlock){
+//
+//            }
         }
-
-        setListener()
     }
 
-    private fun setListener() {
+    private fun setDragListener() {
         binding.apply {
-
+            codingContentLayout.setOnDragListener(CodingLayoutDragListener(requireContext()))
+            imageDelete.setOnDragListener(DeleteImageDragListener(requireContext()))
         }
     }
 

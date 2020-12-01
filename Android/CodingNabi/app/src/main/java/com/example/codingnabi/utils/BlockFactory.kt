@@ -72,6 +72,7 @@ object BlockFactory {
                     tag = resources.getString(R.string.error)
                 }
             }
+            setOnLongClickListener(UsableBlockLongClickListener())
         }
     }
 

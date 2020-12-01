@@ -20,6 +20,6 @@
     <color name="block_forward_backward">#98ffa6</color>
     <color name="block_loop">#ffc0a2</color>
     <color name="block_function">#c0caff</color>
-    <color name="can_be_dropped">#7A83A2ED</color>
-    <color name="drop_layout_on">#811AFF00</color>
+    <color name="can_be_dropped">#83A2ED</color>
+    <color name="now_on_drop_layout">#1AFF00</color>
 </resources>

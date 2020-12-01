@@ -34,13 +34,15 @@ class CodingBlockLongClickListener : View.OnLongClickListener{
 class CodingLayoutDragListener(val context: Context) : View.OnDragListener{
     private val originColor = context.resources.getColor(R.color.transparent, null)
     private val canBeDropped = context.resources.getColor(R.color.can_be_dropped, null)
-    private val dropLayoutOn = context.resources.getColor(R.color.drop_layout_on, null)
+    private val nowOnDropLayout = context.resources.getColor(R.color.now_on_drop_layout, null)
 
     override fun onDrag(v: View?, event: DragEvent?): Boolean {
         return when(event?.action){
             DragEvent.ACTION_DRAG_STARTED -> {
-                Timber.d("CodingLayout: Drag Stated")
+                Timber.d("CodingLayout: Drag Started")
+
                 if (event.clipDescription.label == "usableBlock") {
+                    Timber.i("drag started usableBlock")
                     v?.setBackgroundColor(canBeDropped)
                     v?.invalidate()
                     true
@@ -51,7 +53,7 @@ class CodingLayoutDragListener(val context: Context) : View.OnDragListener{
             }
             DragEvent.ACTION_DRAG_ENTERED -> {
                 Timber.i("CodingLayout: Drag Entered")
-                v?.setBackgroundColor(dropLayoutOn)
+                v?.setBackgroundColor(nowOnDropLayout)
                 v?.invalidate()
                 true
             }
@@ -102,16 +104,16 @@ class CodingLayoutDragListener(val context: Context) : View.OnDragListener{
 class DeleteImageDragListener(val context: Context) : View.OnDragListener{
     private val originColor = context.resources.getColor(R.color.transparent, null)
     private val canBeDropped = context.resources.getColor(R.color.can_be_dropped, null)
-    private val dropLayoutOn = context.resources.getColor(R.color.drop_layout_on, null)
+    private val nowOnDropLayout = context.resources.getColor(R.color.now_on_drop_layout, null)
 
     override fun onDrag(v: View?, event: DragEvent?): Boolean {
         return when(event?.action){
             DragEvent.ACTION_DRAG_STARTED -> {
-                Timber.d("DeleteImage: Drag Stated")
+                Timber.i("DeleteImage: Drag Started")
+
                 if (event.clipDescription.label == "codingBlock") {
                     v?.setBackgroundColor(canBeDropped)
                     v?.invalidate()
-
 
                     true
                 } else {
@@ -121,7 +123,7 @@ class DeleteImageDragListener(val context: Context) : View.OnDragListener{
             }
             DragEvent.ACTION_DRAG_ENTERED -> {
                 Timber.i("DeleteImage: Drag Entered")
-                v?.setBackgroundColor(dropLayoutOn)
+                v?.setBackgroundColor(nowOnDropLayout)
                 v?.invalidate()
                 true
             }

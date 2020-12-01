@@ -10,7 +10,7 @@
         android:title="@string/title_home"
         android:icon="@drawable/ic_home"/>
 
-    <item android:id="@+id/codingLevelSelectFragment"
+    <item android:id="@+id/navigation_coding"
         android:title="@string/title_level_select"
         android:icon="@drawable/ic_gamepad"
         />

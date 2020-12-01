@@ -1,8 +1,10 @@
 package com.example.codingnabi.home
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -14,7 +16,9 @@ import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var job: Job
+    private val job = Job()
+    private lateinit var prefs: SharedPreferences
+    private val time = mutableListOf<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_CodingNabi)
@@ -27,21 +31,37 @@ class MainActivity : AppCompatActivity() {
         binding.homeBottomNavigation.setupWithNavController(navHost.navController)
 
         // Database File Copy Check
-        initDatabaseFileCopy()
+        prefs = getSharedPreferences("Pref", MODE_PRIVATE)
+        if (!prefs.getBoolean("isFirst", false)) {
+            Timber.i("isFirst: false")
+            startProgressBar()
+            initDatabaseFileCopy()
+        }
     }
 
     /**
-     * DB 파일을 복사함과 동시에 Repository 인스턴스를 모두 생성한다.
+     * DB 파일 복사
      */
     private fun initDatabaseFileCopy() {
-        Timber.i("init DB Copy")
-        job = CoroutineScope(Dispatchers.IO).launch {
+        Timber.i("start DB Copy")
+        CoroutineScope(Dispatchers.IO + job).launch {
             DatabaseCopier.downloadLocalDatabase(this@MainActivity)
 
             withContext(Dispatchers.Main){
-//                delay(2000)
+                prefs.edit().apply {
+                    putBoolean("isFirst", true)
+                    apply()
+                }
                 stopProgressBar()
             }
+            Timber.i("DB copy done.")
+        }
+    }
+
+    private fun startProgressBar() {
+        binding.apply {
+            contentProgressbar.visibility = View.VISIBLE
+            contentLayout.visibility = View.GONE
         }
     }
 

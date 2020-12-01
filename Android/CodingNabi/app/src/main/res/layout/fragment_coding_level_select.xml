@@ -4,12 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".blockcoding.CodingLevelSelectFragment">
 
-    <ScrollView
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.example.codingnabi.blockcoding.CodingLevelSelectViewModel" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/level_progressbar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:indeterminate="true"
+        android:visibility="@{viewModel.isDrawing == true ? View.VISIBLE : View.GONE}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:visibility="@{viewModel.isDrawing == true ? View.INVISIBLE : View.VISIBLE}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,11 +37,11 @@
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
+                style="?attr/textAppearanceHeadline6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                style="?attr/textAppearanceHeadline6"
-                android:layout_marginTop="@dimen/margin_with_status_bar"
+                android:layout_marginTop="20dp"
                 android:text="@string/text_level_select_description" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -35,7 +55,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="4" />
+                app:setListItem="@{viewModel.basicProblems}"
+                app:spanCount="7"
+                tools:listitem="@layout/item_coding_level" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/LevelTitle"
@@ -48,7 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="4" />
+                app:setListItem="@{viewModel.advanceProblems}"
+                app:spanCount="7" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/LevelTitle"
@@ -61,7 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="4" />
+                app:setListItem="@{viewModel.loopProblems}"
+                app:spanCount="7" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/LevelTitle"
@@ -74,15 +98,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="4" />
+                app:setListItem="@{viewModel.functionProblems}"
+                app:spanCount="7" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/white"/>
+                android:background="@color/white" />
 
         </LinearLayout>
 
     </ScrollView>
+    </RelativeLayout>
 
 </layout>

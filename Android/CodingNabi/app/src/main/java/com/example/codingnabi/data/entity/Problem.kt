@@ -1,9 +1,8 @@
-package com.example.codingnabi.data
+package com.example.codingnabi.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "problem", foreignKeys = [ForeignKey(
@@ -23,5 +22,6 @@ data class Problem(
     val level: Int,
     @ColumnInfo(name = "available_blocks") val usableBlocks: String,
     @ColumnInfo(name = "description_id") val descriptionId: Int,
-    @ColumnInfo(name = "video_id") val videoId: Int
+    @ColumnInfo(name = "video_id") val videoId: Int,
+    @ColumnInfo(name = "is_cleared") val isCleared: Int
 )

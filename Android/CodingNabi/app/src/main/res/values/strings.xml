@@ -11,4 +11,29 @@
     <string name="text_advance">Advance</string>
     <string name="text_loop">Loop</string>
     <string name="text_function">Function</string>
+    <string name="text_purpose">학습목표</string>
+    <string name="text_execute">실행</string>
+    <string name="text_test">채점</string>
+    <string name="text_problem">문제보기</string>
+    <string name="text_hint">힌트</string>
+    <string name="text_block">블록</string>
+    <string name="text_coding">코드</string>
+    <string name="block_up">UP</string>
+    <string name="block_down">DOWN</string>
+    <string name="block_left">LEFT</string>
+    <string name="block_right">RIGH</string>
+    <string name="block_forward">FORW</string>
+    <string name="block_backward">BACK</string>
+    <string name="block_loop">LOOP</string>
+    <string name="block_function">FUNC</string>
+    <string name="error">ERR</string>
+
+    <string name="tag_up">u</string>
+    <string name="tag_down">d</string>
+    <string name="tag_left">l</string>
+    <string name="tag_right">r</string>
+    <string name="tag_forward">f</string>
+    <string name="tag_backward">b</string>
+    <string name="tag_loop">lp</string>
+    <string name="tag_function">fc</string>
 </resources>

@@ -27,4 +27,13 @@
     <string name="block_loop">LOOP</string>
     <string name="block_function">FUNC</string>
     <string name="error">ERR</string>
+
+    <string name="tag_up">u</string>
+    <string name="tag_down">d</string>
+    <string name="tag_left">l</string>
+    <string name="tag_right">r</string>
+    <string name="tag_forward">f</string>
+    <string name="tag_backward">b</string>
+    <string name="tag_loop">lp</string>
+    <string name="tag_function">fc</string>
 </resources>

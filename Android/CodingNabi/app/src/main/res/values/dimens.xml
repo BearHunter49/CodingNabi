@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="margin_with_status_bar">20dp</dimen>
+    <dimen name="codingBlockWidth">75dp</dimen>
+    <dimen name="codingBlockHeight">45dp</dimen>
+
 </resources>

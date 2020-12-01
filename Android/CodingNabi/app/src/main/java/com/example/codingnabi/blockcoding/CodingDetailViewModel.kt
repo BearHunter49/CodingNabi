@@ -45,10 +45,17 @@ class CodingDetailViewModel(application: Application) : AndroidViewModel(applica
     // Progress bar
     private val _isDrawing = MutableLiveData(true)
     val isDrawing: LiveData<Boolean> = _isDrawing
+
     private var _isFirst = true
+    val isFirst = _isFirst
 
     // Video Url
     private val _videos = hashMapOf<String, String>()
+
+    // Coding Block
+    private var _canDrawCodingBlock = true
+    val canDrawCodingBlock = _canDrawCodingBlock
+
 
 
     fun initData(category: String, level: Int){
@@ -83,12 +90,18 @@ class CodingDetailViewModel(application: Application) : AndroidViewModel(applica
         view.findNavController().navigate(R.id.action_codingDetailFragment_to_codingVideoFragment, bundle)
     }
 
+    fun onResume(){
+        _canDrawCodingBlock = true
+    }
+
     fun onStart(){
         if (!_isFirst) _isDrawing.value = false
     }
 
     fun onDestroyView(){
         _isDrawing.value = true
+        _isFirst = false
+        _canDrawCodingBlock = false
     }
 
 }

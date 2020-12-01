@@ -1,5 +1,7 @@
 package com.example.codingnabi.blockcoding
 
+import android.content.ClipData
+import android.content.ClipDescription
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.viewModels
 import com.example.codingnabi.R
 import com.example.codingnabi.databinding.FragmentCodingDetailBinding
+import com.example.codingnabi.utils.BlockFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import timber.log.Timber
@@ -36,65 +39,38 @@ class CodingDetailFragment : Fragment() {
     private fun subscribeUI() {
         viewModel.usableBlocks.observe(viewLifecycleOwner) {
             Timber.i("usableBlocks observed")
-            for (block in it) {
-                binding.blockContentLayout.addView(getBlock(block))
+            if (viewModel.isFirst) {
+                Timber.i("usableBlocks drawing...")
+                for (block in it) {
+                    binding.blockContentLayout.addView(
+                        BlockFactory.getBlockView(
+                            requireContext(),
+                            block
+                        )
+                    )
+                }
             }
         }
 
         viewModel.codingBlocks.observe(viewLifecycleOwner) {
             Timber.i("codingBlocks observed")
-        }
-    }
+            if (viewModel.canDrawCodingBlock){
 
-    private fun getBlock(block: String): View {
-        return MaterialButton(
-            requireContext(),
-            null,
-            R.style.DetailButton_Block
-        ).apply {
-            when (block) {
-                "u" -> {
-                    text = getString(R.string.block_up)
-                    setBackgroundColor(resources.getColor(R.color.block_up_down, null))
-                }
-                "d" -> {
-                    text = getString(R.string.block_down)
-                    setBackgroundColor(resources.getColor(R.color.block_up_down, null))
-                }
-                "l" -> {
-                    text = getString(R.string.block_left)
-                    setBackgroundColor(resources.getColor(R.color.block_left_right, null))
-                }
-                "r" -> {
-                    text = getString(R.string.block_right)
-                    setBackgroundColor(resources.getColor(R.color.block_left_right, null))
-                }
-                "f" -> {
-                    text = getString(R.string.block_forward)
-                    setBackgroundColor(resources.getColor(R.color.block_forward_backward, null))
-                }
-                "b" -> {
-                    text = getString(R.string.block_backward)
-                    setBackgroundColor(resources.getColor(R.color.block_forward_backward, null))
-                }
-                "lp" -> {
-                    text = getString(R.string.block_loop)
-                    setBackgroundColor(resources.getColor(R.color.block_loop, null))
-                }
-                "fc" -> {
-                    text = getString(R.string.block_function)
-                    setBackgroundColor(resources.getColor(R.color.block_function, null))
-                }
-                else -> {
-                    Timber.e("There is no block such $block")
-                    text = getString(R.string.error)
-                    setBackgroundColor(resources.getColor(R.color.white, null))
-                }
             }
         }
+
+        setListener()
     }
 
+    private fun setListener() {
+        binding.apply {
+
+        }
+    }
+
+
     private fun initData() {
+        Timber.i("initData called")
         val category = arguments?.getString("category")
         val level = arguments?.getInt("level")
 
@@ -105,6 +81,10 @@ class CodingDetailFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
 
     override fun onStart() {
         super.onStart()

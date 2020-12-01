@@ -34,11 +34,11 @@ fun setListItemToAdapter(recyclerView: RecyclerView, item: LiveData<List<Problem
     item?.value?.let { adapter.setData(it) }
 }
 
-@BindingAdapter("setVisibility")
-fun setVisibilityOfCleared(imageView: ImageView, isCleared: Int) {
-    imageView.visibility =
-        when (isCleared) {
-            0 -> View.GONE
-            else -> View.VISIBLE
-        }
-}
+//@BindingAdapter("setVisibility")
+//fun setVisibilityOfCleared(imageView: ImageView, isCleared: Int) {
+//    imageView.visibility =
+//        when (isCleared) {
+//            0 -> View.GONE
+//            else -> View.VISIBLE
+//        }
+//}

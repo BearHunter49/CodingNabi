@@ -60,7 +60,6 @@ class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(ap
 
         }
         _isDrawing.value = false
-        _isFirst = false
     }
 
     fun onStart(){
@@ -69,5 +68,6 @@ class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(ap
 
     fun onDestroyView(){
         _isDrawing.value = true
+        _isFirst = false
     }
 }

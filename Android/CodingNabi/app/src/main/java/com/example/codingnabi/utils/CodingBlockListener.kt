@@ -10,6 +10,9 @@ import android.widget.LinearLayout
 import com.example.codingnabi.R
 import timber.log.Timber
 
+/***
+ * LongClick Listener for usable blocks.
+ */
 class UsableBlockLongClickListener : View.OnLongClickListener{
     override fun onLongClick(v: View?): Boolean {
         val item = ClipData.Item(v?.tag as CharSequence)
@@ -20,6 +23,9 @@ class UsableBlockLongClickListener : View.OnLongClickListener{
     }
 }
 
+/***
+ * LongClick Listener for block that moved to Coding Layout.
+ */
 class CodingBlockLongClickListener : View.OnLongClickListener{
     override fun onLongClick(v: View?): Boolean {
         val item = ClipData.Item(v?.tag as CharSequence)
@@ -31,6 +37,10 @@ class CodingBlockLongClickListener : View.OnLongClickListener{
     }
 }
 
+/***
+ * Drag Listener for Coding Layout.
+ * @param context: need to get resources.
+ */
 class CodingLayoutDragListener(val context: Context) : View.OnDragListener{
     private val originColor = context.resources.getColor(R.color.transparent, null)
     private val canBeDropped = context.resources.getColor(R.color.can_be_dropped, null)
@@ -41,19 +51,20 @@ class CodingLayoutDragListener(val context: Context) : View.OnDragListener{
             DragEvent.ACTION_DRAG_STARTED -> {
                 Timber.d("Drag Started")
 
-                if (event.clipDescription.label == "usableBlock") {
-                    Timber.i("drag started usableBlock")
-                    v?.setBackgroundColor(canBeDropped)
-                    v?.invalidate()
-                    true
-                } else if (event.clipDescription.label == "codingBlock") {
-                    Timber.i("drag started codingBlock")
-                    v?.setBackgroundColor(canBeDropped)
-                    v?.invalidate()
-                    true
-                }else{
-                    // Can not be dropped place.
-                    false
+                when(event.clipDescription.label){
+                    "usableBlock" -> {
+                        Timber.i("drag started usableBlock")
+                        v?.setBackgroundColor(canBeDropped)
+                        v?.invalidate()
+                        true
+                    }
+                    "codingBlock" -> {
+                        Timber.i("drag started codingBlock")
+                        v?.setBackgroundColor(canBeDropped)
+                        v?.invalidate()
+                        true
+                    }
+                    else -> false
                 }
             }
             DragEvent.ACTION_DRAG_ENTERED -> {
@@ -73,42 +84,52 @@ class CodingLayoutDragListener(val context: Context) : View.OnDragListener{
             }
             DragEvent.ACTION_DROP -> {
                 Timber.i("Drag Dropped")
-                if (event.clipDescription.label == "usableBlock"){
-                    Timber.i("Drag Dropped usableBlock")
 
-                    val item = event.clipData.getItemAt(0)
-                    val dragData = item.text
-                    Timber.d("CodingLayout: Dropped data: $dragData")
-                    Timber.d("${event.x}, ${event.y}")
+                when(event.clipDescription.label){
+                    "usableBlock" -> {
+                        Timber.i("Drag Dropped usableBlock")
 
-                    val newBlock = BlockFactory.makeBlockView(context, dragData.toString())
-                    newBlock.setOnLongClickListener(CodingBlockLongClickListener())
+                        val item = event.clipData.getItemAt(0)
+                        val dragData = item.text
 
-                    val contentLayout = v as LinearLayout
-                    val position = CodingBlockUtils.calculatePosition(contentLayout, event.y)
+                        Timber.d("CodingLayout: Dropped data: $dragData")
+                        Timber.d("${event.x}, ${event.y}")
 
-                    contentLayout.addView(newBlock, position)
-                    v.invalidate()
+                        // Create new block according to tag
+                        val newBlock = BlockFactory.makeBlockView(context, dragData.toString())
+                        newBlock.setOnLongClickListener(CodingBlockLongClickListener())
+
+                        // Get position to insert block
+                        val contentLayout = v as LinearLayout
+                        val position = CodingBlockUtils.calculatePosition(contentLayout, event.y)
+
+                        contentLayout.addView(newBlock, position)
+                        v.invalidate()
+                    }
+                    "codingBlock" -> {
+                        Timber.i("Drag Dropped codingBlock")
+
+                        val item = event.clipData.getItemAt(0)
+                        val dragData = item.text
+                        Timber.d("Dropped data: $dragData")
+
+                        val originBlock = event.localState as View
+                        val parentView = originBlock.parent as ViewGroup
+
+                        // Remove relation from parent view group
+                        parentView.removeView(originBlock)
+
+                        // Get position to insert block
+                        val contentLayout = v as LinearLayout
+                        val position = CodingBlockUtils.calculatePosition(contentLayout, event.y)
+
+                        contentLayout.addView(originBlock, position)
+
+                        // Set original block visible
+                        originBlock.visibility = View.VISIBLE
+                        v.invalidate()
+                    }
                 }
-                else if (event.clipDescription.label == "codingBlock"){
-                    Timber.i("Drag Dropped codingBlock")
-
-                    val item = event.clipData.getItemAt(0)
-                    val dragData = item.text
-                    Timber.d("Dropped data: $dragData")
-
-                    val originBlock = event.localState as View
-                    val parentView = originBlock.parent as ViewGroup
-                    parentView.removeView(originBlock)
-
-                    val contentLayout = v as LinearLayout
-                    val position = CodingBlockUtils.calculatePosition(contentLayout, event.y)
-
-                    contentLayout.addView(originBlock, position)
-                    originBlock.visibility = View.VISIBLE
-                    v.invalidate()
-                }
-
                 true
             }
             DragEvent.ACTION_DRAG_ENDED -> {
@@ -130,6 +151,10 @@ class CodingLayoutDragListener(val context: Context) : View.OnDragListener{
     }
 }
 
+/***
+ * Drag Listener for Delete Block Layout.
+ * @param context: need to get resources.
+ */
 class DeleteImageDragListener(val context: Context) : View.OnDragListener{
     private val originColor = context.resources.getColor(R.color.transparent, null)
     private val canBeDropped = context.resources.getColor(R.color.can_be_dropped, null)
@@ -172,6 +197,7 @@ class DeleteImageDragListener(val context: Context) : View.OnDragListener{
                 val dragData = item.text
                 Timber.d("Dropped data: $dragData")
 
+                // Just remove from parent view group
                 val originBlock = event.localState as View
                 val parentView = originBlock.parent as ViewGroup
                 parentView.removeView(originBlock)

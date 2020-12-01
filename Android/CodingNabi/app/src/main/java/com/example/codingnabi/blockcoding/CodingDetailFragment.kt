@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import com.example.codingnabi.R
 import com.example.codingnabi.databinding.FragmentCodingDetailBinding
 import com.example.codingnabi.utils.BlockFactory
+import com.example.codingnabi.utils.CodingBlockUtils
 import com.example.codingnabi.utils.CodingLayoutDragListener
 import com.example.codingnabi.utils.DeleteImageDragListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -41,7 +42,7 @@ class CodingDetailFragment : Fragment() {
                 Timber.i("usableBlocks drawing...")
                 for (block in it) {
                     binding.blockContentLayout.addView(
-                        BlockFactory.getBlockView(
+                        CodingBlockUtils.getBlock(
                             requireContext(),
                             block
                         )

@@ -72,15 +72,18 @@ class CodingLayoutDragListener(val context: Context) : View.OnDragListener{
                 val item = event.clipData.getItemAt(0)
                 val dragData = item.text
                 Timber.d("CodingLayout: Dropped data: $dragData")
+                Timber.d("${event.x}, ${event.y}")
 
-                val newBlock = BlockFactory.getBlockView(context, dragData.toString())
+                val newBlock = BlockFactory.makeBlockView(context, dragData.toString())
                 newBlock.setOnLongClickListener(CodingBlockLongClickListener())
 
-                (v as LinearLayout).addView(newBlock)
+                val contentLayout = v as LinearLayout
+                val position = CodingBlockUtils.calculatePosition(contentLayout, event.y)
+
+                contentLayout.addView(newBlock, position)
                 v.invalidate()
 
                 true
-
             }
             DragEvent.ACTION_DRAG_ENDED -> {
                 Timber.i("CodingLayout: Drag Ended")

@@ -28,9 +28,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detail_layout"
-            android:visibility="@{viewModel.isDrawing == true ? View.INVISIBLE : View.VISIBLE}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.isDrawing == true ? View.INVISIBLE : View.VISIBLE}">
 
             <LinearLayout
                 android:id="@+id/purpose_layout"
@@ -130,10 +130,12 @@
 
                 <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
 
                     <LinearLayout
                         android:id="@+id/block_content_layout"
+                        style="@style/ContentLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:animateLayoutChanges="true"
@@ -162,16 +164,15 @@
                     android:text="@string/text_coding" />
 
                 <ScrollView
-                    android:fillViewport="true"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
 
                     <LinearLayout
                         android:id="@+id/coding_content_layout"
+                        style="@style/ContentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:animateLayoutChanges="true"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content">
 
 
                     </LinearLayout>

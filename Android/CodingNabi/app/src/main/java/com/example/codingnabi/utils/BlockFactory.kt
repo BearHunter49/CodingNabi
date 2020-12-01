@@ -16,7 +16,7 @@ import timber.log.Timber
 object BlockFactory {
 
     @SuppressLint("RestrictedApi", "WrongConstant")
-    fun getBlockView(context: Context, block: String): View {
+    fun makeBlockView(context: Context, block: String): View {
         return MaterialButton(
             ContextThemeWrapper(context, R.style.Widget_MaterialComponents_Button)
         ).apply {
@@ -84,4 +84,6 @@ object BlockFactory {
             gravity = Gravity.CENTER_HORIZONTAL
         }
     }
+
+
 }

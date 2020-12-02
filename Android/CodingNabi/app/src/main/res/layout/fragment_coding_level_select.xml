@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.example.codingnabi.blockcoding.CodingLevelSelectViewModel" />
+            type="com.example.codingnabi.blockcoding.viewmodel.CodingLevelSelectViewModel" />
     </data>
 
     <RelativeLayout

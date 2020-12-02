@@ -7,7 +7,9 @@ import android.view.DragEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.lifecycle.ViewModel
 import com.example.codingnabi.R
+import com.example.codingnabi.blockcoding.viewmodel.CodingDetailViewModel
 import timber.log.Timber
 
 /***
@@ -41,7 +43,7 @@ class CodingBlockLongClickListener : View.OnLongClickListener{
  * Drag Listener for Coding Layout.
  * @param context: need to get resources.
  */
-class CodingLayoutDragListener(val context: Context) : View.OnDragListener{
+class CodingLayoutDragListener(val context: Context, val viewModel: CodingDetailViewModel?) : View.OnDragListener{
     private val originColor = context.resources.getColor(R.color.transparent, null)
     private val canBeDropped = context.resources.getColor(R.color.can_be_dropped, null)
     private val nowOnDropLayout = context.resources.getColor(R.color.now_on_drop_layout, null)

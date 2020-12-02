@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.codingnabi.R
+import com.example.codingnabi.blockcoding.viewmodel.CodingDetailViewModel
+import com.example.codingnabi.blockcoding.viewmodel.CodingDetailViewModelFactory
 import com.example.codingnabi.databinding.FragmentCodingDetailBinding
-import com.example.codingnabi.utils.BlockFactory
 import com.example.codingnabi.utils.CodingBlockUtils
 import com.example.codingnabi.utils.CodingLayoutDragListener
 import com.example.codingnabi.utils.DeleteImageDragListener
@@ -17,7 +19,7 @@ import timber.log.Timber
 
 class CodingDetailFragment : Fragment() {
     private lateinit var binding: FragmentCodingDetailBinding
-    private val viewModel: CodingDetailViewModel by viewModels()
+    private lateinit var viewModel: CodingDetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,10 +27,22 @@ class CodingDetailFragment : Fragment() {
     ): View? {
         binding = FragmentCodingDetailBinding.inflate(inflater)
 
+        val category = arguments?.getString("category")
+        val level = arguments?.getInt("level")
+
+        // Construct ViewModel
+        category?.let {
+            level?.let {
+                viewModel = ViewModelProvider(
+                    this,
+                    CodingDetailViewModelFactory(requireActivity().application, category, level)
+                ).get(CodingDetailViewModel::class.java)
+            }
+        }
+
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        initData()
         subscribeUI()
         setDragListener()
 
@@ -38,51 +52,36 @@ class CodingDetailFragment : Fragment() {
     private fun subscribeUI() {
         viewModel.usableBlocks.observe(viewLifecycleOwner) {
             Timber.i("usableBlocks observed")
-            if (viewModel.isFirst) {
-                Timber.i("usableBlocks drawing...")
-                for (block in it) {
-                    binding.blockContentLayout.addView(
-                        CodingBlockUtils.getBlock(
-                            requireContext(),
-                            block
-                        )
+
+            for (block in it) {
+                binding.blockContentLayout.addView(
+                    CodingBlockUtils.getBlock(
+                        requireContext(),
+                        block
                     )
-                }
+                )
             }
+
         }
 
         viewModel.codingBlocks.observe(viewLifecycleOwner) {
             Timber.i("codingBlocks observed")
-//            if (viewModel.canDrawCodingBlock){
-//
-//            }
+
         }
     }
 
     private fun setDragListener() {
         binding.apply {
-            codingContentLayout.setOnDragListener(CodingLayoutDragListener(requireContext()))
+            codingContentLayout.setOnDragListener(
+                CodingLayoutDragListener(
+                    requireContext(),
+                    viewModel
+                )
+            )
             imageDelete.setOnDragListener(DeleteImageDragListener(requireContext()))
         }
     }
 
-
-    private fun initData() {
-        Timber.i("initData called")
-        val category = arguments?.getString("category")
-        val level = arguments?.getInt("level")
-
-        category?.let {
-            level?.let {
-                viewModel.initData(category, level)
-            }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onResume()
-    }
 
     override fun onStart() {
         super.onStart()

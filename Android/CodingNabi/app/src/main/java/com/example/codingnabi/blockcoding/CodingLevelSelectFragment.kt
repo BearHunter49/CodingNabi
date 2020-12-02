@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import androidx.navigation.navGraphViewModels
 import com.example.codingnabi.R
 import com.example.codingnabi.adapter.ProblemAdapter
+import com.example.codingnabi.blockcoding.viewmodel.CodingLevelSelectViewModel
 import com.example.codingnabi.databinding.FragmentCodingLevelSelectBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import timber.log.Timber

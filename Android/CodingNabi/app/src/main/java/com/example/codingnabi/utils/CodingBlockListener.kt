@@ -43,7 +43,7 @@ class CodingBlockLongClickListener : View.OnLongClickListener{
  * Drag Listener for Coding Layout.
  * @param context: need to get resources.
  */
-class CodingLayoutDragListener(val context: Context, val viewModel: CodingDetailViewModel?) : View.OnDragListener{
+class CodingLayoutDragListener(val context: Context) : View.OnDragListener{
     private val originColor = context.resources.getColor(R.color.transparent, null)
     private val canBeDropped = context.resources.getColor(R.color.can_be_dropped, null)
     private val nowOnDropLayout = context.resources.getColor(R.color.now_on_drop_layout, null)

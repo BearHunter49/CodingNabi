@@ -32,8 +32,8 @@ class CodingDetailViewModel(
     private val _usableBlocks = MutableLiveData<List<String>>()
     val usableBlocks: LiveData<List<String>> = _usableBlocks
 
-    private val _codingBlocks = MutableLiveData<MutableList<Pair<String, String>>>()
-    val codingBlocks: LiveData<MutableList<Pair<String, String>>> = _codingBlocks
+    private val _codingBlocks = MutableLiveData<MutableList<String>>()
+    val codingBlocks: LiveData<MutableList<String>> = _codingBlocks
 
     // Repository
     private val problemRepository: ProblemRepository by lazy {
@@ -86,7 +86,7 @@ class CodingDetailViewModel(
         _isDrawing.value = false
     }
 
-    private fun setCodingBlocks(newBlocks: MutableList<Pair<String, String>>) {
+    fun setCodingBlocks(newBlocks: MutableList<String>) {
         _codingBlocks.value = newBlocks
     }
 

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.codingnabi.R
@@ -61,33 +62,44 @@ class CodingDetailFragment : Fragment() {
                     )
                 )
             }
-
         }
 
-        viewModel.codingBlocks.observe(viewLifecycleOwner) {
+        viewModel.codingBlocks.observe(viewLifecycleOwner){
             Timber.i("codingBlocks observed")
 
+            it.forEach { tag ->
+                binding.codingContentLayout.addView(CodingBlockUtils.getBlock(requireContext(), tag))
+            }
         }
     }
 
+
     private fun setDragListener() {
         binding.apply {
-            codingContentLayout.setOnDragListener(
-                CodingLayoutDragListener(
-                    requireContext(),
-                    viewModel
-                )
-            )
+            codingContentLayout.setOnDragListener(CodingLayoutDragListener(requireContext()))
             imageDelete.setOnDragListener(DeleteImageDragListener(requireContext()))
         }
     }
 
+    private fun getCodingBlockList(): MutableList<String> {
+        Timber.i("getCodingBlockList() Called")
+        val blockList = mutableListOf<String>()
+        binding.codingContentLayout.children.forEach {
+            blockList.add(it.tag.toString())
+        }
+        return blockList
+    }
 
     override fun onStart() {
         super.onStart()
         activity?.findViewById<BottomNavigationView>(R.id.home_bottom_navigation)?.visibility =
             View.GONE
         viewModel.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.setCodingBlocks(getCodingBlockList())
     }
 
     override fun onDestroyView() {

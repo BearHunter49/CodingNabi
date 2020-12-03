@@ -6,12 +6,12 @@ import java.net.DatagramSocket
 import java.net.InetAddress
 import java.net.SocketException
 
-class SocketClientUDP(private val ip: InetAddress, private val port: Int) : SocketClient{
+class SocketClientUdp(private val ip: InetAddress, private val port: Int) : SocketClient{
 
     private val socketUDP: DatagramSocket = DatagramSocket()  // Use default port
 
-    override fun sendMessage(data: String) {
-        val datagramPacket = DatagramPacket(data.toByteArray(), data.length, ip, port)
+    override fun sendMessage(data: ByteArray) {
+        val datagramPacket = DatagramPacket(data, data.size, ip, port)
 
         try {
             socketUDP.send(datagramPacket)

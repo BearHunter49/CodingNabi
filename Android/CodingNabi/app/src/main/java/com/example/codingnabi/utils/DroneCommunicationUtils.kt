@@ -1,18 +1,8 @@
 package com.example.codingnabi.utils
 
-import com.example.codingnabi.socket.SocketClient
-import com.example.codingnabi.socket.SocketClientUDP
-import java.net.InetAddress
 
 @ExperimentalUnsignedTypes
-object DroneCommunication {
-    // Drone: 192.168.4.1
-    private val socketClient: SocketClient by lazy {
-        SocketClientUDP(
-            InetAddress.getByName("192.168.0.24"),
-            5000
-        )
-    }
+object DroneCommunicationUtils {
 
     fun getArmPacket(): ByteArray{
         val packet = getDefaultPacket()

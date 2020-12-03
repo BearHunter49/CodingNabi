@@ -5,25 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.core.view.children
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.codingnabi.R
 import com.example.codingnabi.blockcoding.viewmodel.CodingDetailViewModel
 import com.example.codingnabi.blockcoding.viewmodel.CodingDetailViewModelFactory
 import com.example.codingnabi.databinding.FragmentCodingDetailBinding
-import com.example.codingnabi.socket.SocketClient
-import com.example.codingnabi.socket.SocketClientUDP
 import com.example.codingnabi.utils.CodingBlockUtils
 import com.example.codingnabi.utils.CodingLayoutDragListener
 import com.example.codingnabi.utils.DeleteImageDragListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
-import java.net.InetAddress
 
 class CodingDetailFragment : Fragment() {
     private lateinit var binding: FragmentCodingDetailBinding
@@ -57,6 +50,7 @@ class CodingDetailFragment : Fragment() {
         return binding.root
     }
 
+    @ExperimentalUnsignedTypes
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -65,16 +59,39 @@ class CodingDetailFragment : Fragment() {
             buttonExecute.setOnClickListener {
                 val viewGroup = codingContentLayout
 
-                viewGroup.children.forEach { block ->
-                    block.backgroundTintList = resources.getColorStateList(R.color.on_block_execute, null)
+                if (viewGroup.childCount != 0){
                     // Async
                     CoroutineScope(Dispatchers.IO).launch {
+                        CodingBlockUtils.setDroneUsable()  // 시동 끄기
 
+                        viewGroup.children.forEach { block ->
+                            val tag = block.tag.toString()
+
+                            // 색 변경
+                            withContext(Dispatchers.Main){
+                                block.backgroundTintList =
+                                    resources.getColorStateList(R.color.on_block_execute, null)
+                            }
+                            CodingBlockUtils.sendDataByTag(tag)
+                            delay(1000L)
+
+                            // 색 복구
+                            withContext(Dispatchers.Main){
+                                block.backgroundTintList =
+                                    CodingBlockUtils.getOriginalColor(requireContext(), tag)
+                            }
+                        }
+
+                        CodingBlockUtils.setDroneDisable()  // 시동 켜기
                     }
                 }
             }
         }
+
+
     }
+
+
 
     private fun subscribeUI() {
         viewModel.usableBlocks.observe(viewLifecycleOwner) {

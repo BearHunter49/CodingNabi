@@ -57,10 +57,6 @@ class CodingDetailViewModel(
 
 
     init {
-        initData(this.category, this.level)
-    }
-
-    private fun initData(category: String, level: Int) {
         viewModelScope.launch {
             loadData(category, level)
         }

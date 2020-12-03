@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.view.children
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -12,11 +13,17 @@ import com.example.codingnabi.R
 import com.example.codingnabi.blockcoding.viewmodel.CodingDetailViewModel
 import com.example.codingnabi.blockcoding.viewmodel.CodingDetailViewModelFactory
 import com.example.codingnabi.databinding.FragmentCodingDetailBinding
+import com.example.codingnabi.socket.SocketClient
+import com.example.codingnabi.socket.SocketClientUDP
 import com.example.codingnabi.utils.CodingBlockUtils
 import com.example.codingnabi.utils.CodingLayoutDragListener
 import com.example.codingnabi.utils.DeleteImageDragListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.net.InetAddress
 
 class CodingDetailFragment : Fragment() {
     private lateinit var binding: FragmentCodingDetailBinding
@@ -50,6 +57,25 @@ class CodingDetailFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Cannot move logic to ViewModel...
+        binding.apply {
+            buttonExecute.setOnClickListener {
+                val viewGroup = codingContentLayout
+
+                viewGroup.children.forEach { block ->
+                    block.backgroundTintList = resources.getColorStateList(R.color.on_block_execute, null)
+                    // Async
+                    CoroutineScope(Dispatchers.IO).launch {
+
+                    }
+                }
+            }
+        }
+    }
+
     private fun subscribeUI() {
         viewModel.usableBlocks.observe(viewLifecycleOwner) {
             Timber.i("usableBlocks observed")
@@ -64,11 +90,16 @@ class CodingDetailFragment : Fragment() {
             }
         }
 
-        viewModel.codingBlocks.observe(viewLifecycleOwner){
+        viewModel.codingBlocks.observe(viewLifecycleOwner) {
             Timber.i("codingBlocks observed")
 
             it.forEach { tag ->
-                binding.codingContentLayout.addView(CodingBlockUtils.getBlock(requireContext(), tag))
+                binding.codingContentLayout.addView(
+                    CodingBlockUtils.getBlock(
+                        requireContext(),
+                        tag
+                    )
+                )
             }
         }
     }

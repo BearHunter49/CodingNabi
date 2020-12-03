@@ -1,4 +1,4 @@
-package com.example.codingnabi.blockcoding
+package com.example.codingnabi.blockcoding.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.*

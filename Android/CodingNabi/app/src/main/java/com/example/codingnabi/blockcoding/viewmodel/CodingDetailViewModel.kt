@@ -1,4 +1,4 @@
-package com.example.codingnabi.blockcoding
+package com.example.codingnabi.blockcoding.viewmodel
 
 import android.app.Application
 import android.view.View
@@ -17,7 +17,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class CodingDetailViewModel(application: Application) : AndroidViewModel(application) {
+class CodingDetailViewModel(
+    application: Application,
+    private val category: String,
+    private val level: Int
+) : AndroidViewModel(application) {
     // LiveData
     private val _purpose = MutableLiveData<String>()
     val purpose: LiveData<String> = _purpose
@@ -47,34 +51,27 @@ class CodingDetailViewModel(application: Application) : AndroidViewModel(applica
     val isDrawing: LiveData<Boolean> = _isDrawing
 
     private var _isFirst = true
-    val isFirst = _isFirst
 
     // Video Url
     private val _videos = hashMapOf<String, String>()
 
-    // Coding Block
-    private var _canDrawCodingBlock = true
-    val canDrawCodingBlock = _canDrawCodingBlock
 
-
-
-    fun initData(category: String, level: Int){
-        if (_isFirst){
-            viewModelScope.launch {
-                loadData(category, level)
-            }
+    init {
+        viewModelScope.launch {
+            loadData(category, level)
         }
     }
 
     private suspend fun loadData(category: String, level: Int) {
         Timber.i("loadData called: $category, $level")
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             val problem: Problem = problemRepository.getProblemByCategoryAndLevel(category, level)
             Timber.d("$problem")
-            val description: Description = descriptionRepository.getDescriptionById(problem.descriptionId)
+            val description: Description =
+                descriptionRepository.getDescriptionById(problem.descriptionId)
             val video: Video = videoRepository.getVideoById(problem.videoId)
 
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 _videos["top"] = video.topViewUrl
                 _videos["side"] = video.sideViewUrl
                 _purpose.value = description.goal
@@ -85,23 +82,24 @@ class CodingDetailViewModel(application: Application) : AndroidViewModel(applica
         _isDrawing.value = false
     }
 
-    fun seeVideoOfProblem(view: View){
+    fun setCodingBlocks(newBlocks: MutableList<String>) {
+        _codingBlocks.value = newBlocks
+    }
+
+    fun seeVideoOfProblem(view: View) {
         val bundle = bundleOf("top" to _videos["top"], "side" to _videos["side"])
-        view.findNavController().navigate(R.id.action_codingDetailFragment_to_codingVideoFragment, bundle)
+        view.findNavController()
+            .navigate(R.id.action_codingDetailFragment_to_codingVideoFragment, bundle)
     }
 
-    fun onResume(){
-        _canDrawCodingBlock = true
-    }
 
-    fun onStart(){
+    fun onStart() {
         if (!_isFirst) _isDrawing.value = false
     }
 
-    fun onDestroyView(){
+    fun onDestroyView() {
         _isDrawing.value = true
         _isFirst = false
-        _canDrawCodingBlock = false
     }
 
 }

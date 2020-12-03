@@ -22,4 +22,5 @@
     <color name="block_function">#c0caff</color>
     <color name="can_be_dropped">#83A2ED</color>
     <color name="now_on_drop_layout">#1AFF00</color>
+    <color name="on_block_execute">#83FF0000</color>
 </resources>

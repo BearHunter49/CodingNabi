@@ -7,7 +7,9 @@ import android.view.DragEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.lifecycle.ViewModel
 import com.example.codingnabi.R
+import com.example.codingnabi.blockcoding.viewmodel.CodingDetailViewModel
 import timber.log.Timber
 
 /***

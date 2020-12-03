@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.codingnabi.blockcoding.CodingDetailViewModel" />
+            type="com.example.codingnabi.blockcoding.viewmodel.CodingDetailViewModel" />
     </data>
 
     <RelativeLayout

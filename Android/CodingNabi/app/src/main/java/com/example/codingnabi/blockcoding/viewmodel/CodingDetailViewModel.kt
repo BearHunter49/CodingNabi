@@ -71,13 +71,11 @@ class CodingDetailViewModel(
                 descriptionRepository.getDescriptionById(problem.descriptionId)
             val video: Video = videoRepository.getVideoById(problem.videoId)
 
-            withContext(Dispatchers.Main) {
-                _videos["top"] = video.topViewUrl
-                _videos["side"] = video.sideViewUrl
-                _purpose.value = description.goal
-                _hint.value = description.hint
-                _usableBlocks.value = problem.usableBlocks.split(",")
-            }
+            _videos["top"] = video.topViewUrl
+            _videos["side"] = video.sideViewUrl
+            _purpose.postValue(description.goal)
+            _hint.postValue(description.hint)
+            _usableBlocks.postValue(problem.usableBlocks.split(","))
         }
         _isDrawing.value = false
     }

@@ -2,7 +2,7 @@ package com.example.codingnabi.utils
 
 
 @ExperimentalUnsignedTypes
-object DroneCommunicationUtils {
+object DroneConnectionUtils {
 
     fun getArmPacket(): ByteArray{
         val packet = getDefaultPacket()

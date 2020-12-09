@@ -83,6 +83,18 @@
                 app:layout_constraintStart_toStartOf="@id/purpose_layout"
                 app:layout_constraintTop_toBottomOf="@+id/button_problem" />
 
+            <TextView
+                android:id="@+id/text_respond"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/block_layout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_hint"
+                android:text="@{viewModel.droneRespond}"
+                tools:text="Hello"
+                android:layout_margin="5dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
             <ImageView
                 android:id="@+id/image_delete"
                 android:layout_width="60dp"

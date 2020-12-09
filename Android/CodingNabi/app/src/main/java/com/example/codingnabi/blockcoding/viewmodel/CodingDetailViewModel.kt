@@ -55,6 +55,9 @@ class CodingDetailViewModel(
     // Video Url
     private val _videos = hashMapOf<String, String>()
 
+    // Drone Test
+    val droneRespond = MutableLiveData<String>()
+
 
     init {
         viewModelScope.launch {

@@ -21,6 +21,7 @@ import timber.log.Timber
 class CodingDetailFragment : Fragment() {
     private lateinit var binding: FragmentCodingDetailBinding
     private lateinit var viewModel: CodingDetailViewModel
+    private var stop = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +47,7 @@ class CodingDetailFragment : Fragment() {
 
         subscribeUI()
         setDragListener()
+        getPacket()
 
         return binding.root
     }
@@ -62,7 +64,9 @@ class CodingDetailFragment : Fragment() {
                 if (viewGroup.childCount != 0){
                     // Async
                     CoroutineScope(Dispatchers.IO).launch {
-                        CodingBlockUtils.setDroneUsable()  // 시동 끄기
+                        CodingBlockUtils.setDroneRgb()
+                        CodingBlockUtils.setDroneCalibration()  // 시동 켜기
+                        CodingBlockUtils.setDroneArm()  // 시동 켜기
 
                         viewGroup.children.forEach { block ->
                             val tag = block.tag.toString()
@@ -72,8 +76,9 @@ class CodingDetailFragment : Fragment() {
                                 block.backgroundTintList =
                                     resources.getColorStateList(R.color.on_block_execute, null)
                             }
+
+                            // 패킷 전송
                             CodingBlockUtils.sendDataByTag(tag)
-                            delay(1000L)
 
                             // 색 복구
                             withContext(Dispatchers.Main){
@@ -82,7 +87,7 @@ class CodingDetailFragment : Fragment() {
                             }
                         }
 
-                        CodingBlockUtils.setDroneDisable()  // 시동 켜기
+                        CodingBlockUtils.setDroneDisarm()  // 시동 끄기
                     }
                 }
             }
@@ -91,7 +96,14 @@ class CodingDetailFragment : Fragment() {
 
     }
 
-
+    private fun getPacket(){
+        CoroutineScope(Dispatchers.IO).launch {
+            while (stop == 0){
+                viewModel.droneRespond.postValue(CodingBlockUtils.getPacket())
+                delay(50L)
+            }
+        }
+    }
 
     private fun subscribeUI() {
         viewModel.usableBlocks.observe(viewLifecycleOwner) {
@@ -143,16 +155,14 @@ class CodingDetailFragment : Fragment() {
         activity?.findViewById<BottomNavigationView>(R.id.home_bottom_navigation)?.visibility =
             View.GONE
         viewModel.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        viewModel.setCodingBlocks(getCodingBlockList())
+        stop = 0
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.onDestroyView()
+        viewModel.setCodingBlocks(getCodingBlockList())
+        stop = 1
     }
 
 }

@@ -14,9 +14,10 @@ import java.net.InetAddress
 
 object CodingBlockUtils {
     // Drone: 192.168.4.1
+    // Local: 192.168.0.24
     private val socketClient: SocketClient by lazy {
         SocketClientUdp(
-            InetAddress.getByName("192.168.0.24"),
+            InetAddress.getByName("192.168.4.1"),
             5000
         )
     }
@@ -87,18 +88,37 @@ object CodingBlockUtils {
      * Drone 시동 켜기
      */
     @ExperimentalUnsignedTypes
-    suspend fun setDroneUsable() {
+    suspend fun setDroneArm() {
         socketClient.sendMessage(DroneConnectionUtils.getArmPacket())
-        delay(500L)
+        delay(1000L)
+    }
+
+    /***
+     * Drone 수평 계산
+     */
+    @ExperimentalUnsignedTypes
+    suspend fun setDroneCalibration() {
+        delay(100L)
         socketClient.sendMessage(DroneConnectionUtils.getCalibrationPacket())
+        delay(4000L)
     }
 
     /***
      * Drone 시동 끄기
      */
     @ExperimentalUnsignedTypes
-    suspend fun setDroneDisable() {
+    suspend fun setDroneDisarm() {
         socketClient.sendMessage(DroneConnectionUtils.getDisArmPacket())
+        delay(500L)
+    }
+
+    /***
+     * Drone RGB 설정
+     */
+    @ExperimentalUnsignedTypes
+    suspend fun setDroneRgb() {
+        socketClient.sendMessage(DroneConnectionUtils.getSetRgbPacket())
+        delay(1000L)
     }
 
     /***
@@ -106,40 +126,46 @@ object CodingBlockUtils {
      */
     @ExperimentalUnsignedTypes
     suspend fun sendDataByTag(tag: String) {
-        val curTime = System.currentTimeMillis()
-        while ((System.currentTimeMillis() - curTime) / 1000 < 1){
+        val time = System.currentTimeMillis()
+        while ((System.currentTimeMillis() - time) / 1000 < 1) {
+            delay(50L)
             socketClient.sendMessage(
                 when (tag) {
                     "u" -> {
-                        DroneConnectionUtils.getControlPacket(125, 125, 125, 70, 0)
+                        DroneConnectionUtils.getControlPacket(125, 125, 125, 150, 0)
                     }
                     "d" -> {
-                        DroneConnectionUtils.getControlPacket(125, 125, 125, 70, 0)
+                        DroneConnectionUtils.getControlPacket(125, 125, 125, 100, 0)
                     }
-                    "l"-> {
-                        DroneConnectionUtils.getControlPacket(125, 125, 125, 70, 0)
+                    "l" -> {
+                        DroneConnectionUtils.getControlPacket(100, 125, 125, 125, 0)
                     }
                     "r" -> {
-                        DroneConnectionUtils.getControlPacket(125, 125, 125, 70, 0)
+                        DroneConnectionUtils.getControlPacket(150, 125, 125, 125, 0)
                     }
                     "f" -> {
-                        DroneConnectionUtils.getControlPacket(125, 125, 125, 70, 0)
+                        DroneConnectionUtils.getControlPacket(125, 100, 125, 125, 0)
                     }
                     "b" -> {
-                        DroneConnectionUtils.getControlPacket(125, 125, 125, 70, 0)
+                        DroneConnectionUtils.getControlPacket(125, 150, 125, 125, 0)
                     }
 //                "lp" -> {
 //                    DroneCommunicationUtils.getControlPacket(125, 125, 125, 70, 0)
 //                }
 //                "fc" -> {
 //                    DroneCommunicationUtils.getControlPacket(125, 125, 125, 70, 0)
-                    else -> {
-                        DroneConnectionUtils.getControlPacket(125, 125, 125, 70, 0)
+                    else -> {  // Default
+                        DroneConnectionUtils.getControlPacket(125, 125, 125, 125, 0)
                     }
                 }
             )
         }
 
-
     }
+
+    suspend fun getPacket(): String {
+        return socketClient.receiveMessage(1000)
+    }
+
+
 }

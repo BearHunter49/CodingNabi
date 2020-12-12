@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import com.example.codingnabi.R
@@ -21,7 +22,7 @@ import timber.log.Timber
 class CodingDetailFragment : Fragment() {
     private lateinit var binding: FragmentCodingDetailBinding
     private lateinit var viewModel: CodingDetailViewModel
-    private var stop = 0
+//    private var stop = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +48,7 @@ class CodingDetailFragment : Fragment() {
 
         subscribeUI()
         setDragListener()
-        getPacket()
+//        getPacket()
 
         return binding.root
     }
@@ -58,6 +59,7 @@ class CodingDetailFragment : Fragment() {
 
         // Cannot move logic to ViewModel...
         binding.apply {
+            // 실행 버튼
             buttonExecute.setOnClickListener {
                 val viewGroup = codingContentLayout
 
@@ -91,19 +93,33 @@ class CodingDetailFragment : Fragment() {
                     }
                 }
             }
-        }
 
+            // Hint 버튼
+            buttonHint.setOnClickListener {
+                val builder = AlertDialog.Builder(requireContext())
 
-    }
-
-    private fun getPacket(){
-        CoroutineScope(Dispatchers.IO).launch {
-            while (stop == 0){
-                viewModel.droneRespond.postValue(CodingBlockUtils.getPacket())
-                delay(50L)
+                builder.run {
+                    setTitle("Hint")
+                    setMessage(viewModel?.hint)
+                    create()
+                    show()
+                }
             }
+
+
         }
+
+
     }
+
+//    private fun getPacket(){
+//        CoroutineScope(Dispatchers.IO).launch {
+//            while (stop == 0){
+//                viewModel.droneRespond.postValue(CodingBlockUtils.getPacket())
+//                delay(50L)
+//            }
+//        }
+//    }
 
     private fun subscribeUI() {
         viewModel.usableBlocks.observe(viewLifecycleOwner) {
@@ -155,14 +171,14 @@ class CodingDetailFragment : Fragment() {
         activity?.findViewById<BottomNavigationView>(R.id.home_bottom_navigation)?.visibility =
             View.GONE
         viewModel.onStart()
-        stop = 0
+//        stop = 0
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.onDestroyView()
         viewModel.setCodingBlocks(getCodingBlockList())
-        stop = 1
+//        stop = 1
     }
 
 }

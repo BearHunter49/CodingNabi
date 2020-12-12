@@ -26,9 +26,6 @@ class CodingDetailViewModel(
     private val _purpose = MutableLiveData<String>()
     val purpose: LiveData<String> = _purpose
 
-    private val _hint = MutableLiveData<String>()
-    val hint: LiveData<String> = _hint
-
     private val _usableBlocks = MutableLiveData<List<String>>()
     val usableBlocks: LiveData<List<String>> = _usableBlocks
 
@@ -56,7 +53,10 @@ class CodingDetailViewModel(
     private val _videos = hashMapOf<String, String>()
 
     // Drone Test
-    val droneRespond = MutableLiveData<String>()
+//    val droneRespond = MutableLiveData<String>()
+
+    // Hint
+    var hint = ""
 
 
     init {
@@ -76,8 +76,8 @@ class CodingDetailViewModel(
 
             _videos["top"] = video.topViewUrl
             _videos["side"] = video.sideViewUrl
+            hint = description.hint
             _purpose.postValue(description.goal)
-            _hint.postValue(description.hint)
             _usableBlocks.postValue(problem.usableBlocks.split(","))
         }
         _isDrawing.value = false

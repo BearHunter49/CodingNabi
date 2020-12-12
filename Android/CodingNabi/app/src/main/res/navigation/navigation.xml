@@ -49,6 +49,9 @@
             <action
                 android:id="@+id/action_codingDetailFragment_to_codingWrongFragment"
                 app:destination="@id/codingWrongFragment" />
+            <action
+                android:id="@+id/action_codingDetailFragment_to_codingVideoActivity"
+                app:destination="@id/codingVideoActivity" />
         </fragment>
         <fragment
             android:id="@+id/codingWrongFragment"
@@ -65,5 +68,10 @@
             android:name="com.example.codingnabi.blockcoding.CodingVideoFragment"
             android:label="fragment_coding_video"
             tools:layout="@layout/fragment_coding_video" />
+        <activity
+            android:id="@+id/codingVideoActivity"
+            android:name="com.example.codingnabi.blockcoding.CodingVideoActivity"
+            android:label="activity_coding_video"
+            tools:layout="@layout/activity_coding_video" />
     </navigation>
 </navigation>

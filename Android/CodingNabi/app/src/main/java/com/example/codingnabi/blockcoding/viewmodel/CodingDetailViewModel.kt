@@ -56,7 +56,7 @@ class CodingDetailViewModel(
 //    val droneRespond = MutableLiveData<String>()
 
     // Hint
-    var hint = ""
+    val hint = MutableLiveData<String>()
 
 
     init {
@@ -76,7 +76,7 @@ class CodingDetailViewModel(
 
             _videos["top"] = video.topViewUrl
             _videos["side"] = video.sideViewUrl
-            hint = description.hint
+            hint.postValue(description.hint)
             _purpose.postValue(description.goal)
             _usableBlocks.postValue(problem.usableBlocks.split(","))
         }
@@ -90,7 +90,7 @@ class CodingDetailViewModel(
     fun seeVideoOfProblem(view: View) {
         val bundle = bundleOf("top" to _videos["top"], "side" to _videos["side"])
         view.findNavController()
-            .navigate(R.id.action_codingDetailFragment_to_codingVideoFragment, bundle)
+            .navigate(R.id.action_codingDetailFragment_to_codingVideoActivity, bundle)
     }
 
 

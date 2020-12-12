@@ -100,7 +100,7 @@ class CodingDetailFragment : Fragment() {
 
                 builder.run {
                     setTitle("Hint")
-                    setMessage(viewModel?.hint)
+                    setMessage(viewModel?.hint?.value)
                     create()
                     show()
                 }

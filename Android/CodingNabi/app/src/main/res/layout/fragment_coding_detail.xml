@@ -39,7 +39,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/block_layout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="spread_inside">
+                app:layout_constraintVertical_chainStyle="spread">
 
                 <com.google.android.material.textview.MaterialTextView
                     style="@style/DetailHeadText"
@@ -66,8 +66,8 @@
                 android:layout_height="wrap_content"
                 android:onClick="@{viewModel::seeVideoOfProblem}"
                 android:text="@string/text_problem"
-                app:layout_constraintBottom_toTopOf="@+id/button_hint"
-                app:layout_constraintEnd_toEndOf="@+id/purpose_layout"
+                app:layout_constraintBottom_toTopOf="@id/button_calibration"
+                app:layout_constraintEnd_toStartOf="@+id/button_hint"
                 app:layout_constraintStart_toStartOf="@id/purpose_layout"
                 app:layout_constraintTop_toBottomOf="@+id/purpose_layout" />
 
@@ -76,24 +76,45 @@
                 style="@style/DetailButton.Normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:text="@string/text_hint"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/button_problem"
                 app:layout_constraintEnd_toEndOf="@+id/purpose_layout"
-                app:layout_constraintStart_toStartOf="@id/purpose_layout"
+                app:layout_constraintStart_toEndOf="@+id/button_problem" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_calibration"
+                style="@style/DetailButton.Normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_button_calibration"
+                app:layout_constraintBottom_toTopOf="@+id/button_disarm"
+                app:layout_constraintEnd_toEndOf="@+id/button_hint"
+                app:layout_constraintStart_toStartOf="@+id/button_problem"
                 app:layout_constraintTop_toBottomOf="@+id/button_problem" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/text_respond"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintEnd_toStartOf="@id/block_layout"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/button_hint"-->
-<!--                android:text="@{viewModel.droneRespond}"-->
-<!--                tools:text="Hello"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"/>-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_arm"
+                style="@style/DetailButton.Normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_button_arm"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button_disarm"
+                app:layout_constraintStart_toStartOf="@+id/purpose_layout"
+                app:layout_constraintTop_toBottomOf="@+id/button_calibration" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_disarm"
+                style="@style/DetailButton.Normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/text_button_disarm"
+                app:layout_constraintBaseline_toBaselineOf="@+id/button_arm"
+                app:layout_constraintEnd_toEndOf="@+id/purpose_layout"
+                app:layout_constraintStart_toEndOf="@+id/button_arm"
+                app:layout_constraintTop_toBottomOf="@+id/button_calibration" />
+
 
             <ImageView
                 android:id="@+id/image_delete"

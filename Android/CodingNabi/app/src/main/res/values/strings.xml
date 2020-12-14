@@ -36,4 +36,7 @@
     <string name="tag_backward">b</string>
     <string name="tag_loop">lp</string>
     <string name="tag_function">fc</string>
+    <string name="text_button_calibration">수평계산</string>
+    <string name="text_button_arm">시동켜기</string>
+    <string name="text_button_disarm">시동끄기</string>
 </resources>

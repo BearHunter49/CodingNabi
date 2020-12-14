@@ -59,40 +59,6 @@ class CodingDetailFragment : Fragment() {
 
         // Cannot move logic to ViewModel...
         binding.apply {
-            // 실행 버튼
-            buttonExecute.setOnClickListener {
-                val viewGroup = codingContentLayout
-
-                if (viewGroup.childCount != 0){
-                    // Async
-                    CoroutineScope(Dispatchers.IO).launch {
-                        CodingBlockUtils.setDroneRgb()
-                        CodingBlockUtils.setDroneCalibration()  // 시동 켜기
-                        CodingBlockUtils.setDroneArm()  // 시동 켜기
-
-                        viewGroup.children.forEach { block ->
-                            val tag = block.tag.toString()
-
-                            // 색 변경
-                            withContext(Dispatchers.Main){
-                                block.backgroundTintList =
-                                    resources.getColorStateList(R.color.on_block_execute, null)
-                            }
-
-                            // 패킷 전송
-                            CodingBlockUtils.sendDataByTag(tag)
-
-                            // 색 복구
-                            withContext(Dispatchers.Main){
-                                block.backgroundTintList =
-                                    CodingBlockUtils.getOriginalColor(requireContext(), tag)
-                            }
-                        }
-
-                        CodingBlockUtils.setDroneDisarm()  // 시동 끄기
-                    }
-                }
-            }
 
             // Hint 버튼
             buttonHint.setOnClickListener {
@@ -106,10 +72,50 @@ class CodingDetailFragment : Fragment() {
                 }
             }
 
+            // Calibration
+
+            // Arm
+
+            // Disarm
+
+
+            // 실행 버튼
+            buttonExecute.setOnClickListener {
+                val viewGroup = codingContentLayout
+
+                if (viewGroup.childCount != 0) {
+                    // Async
+                    CoroutineScope(Dispatchers.IO).launch {
+                        CodingBlockUtils.setDroneRgb()
+                        CodingBlockUtils.setDroneCalibration()  // 시동 켜기
+                        CodingBlockUtils.setDroneArm()  // 시동 켜기
+
+                        viewGroup.children.forEach { block ->
+                            val tag = block.tag.toString()
+
+                            // 색 변경
+                            withContext(Dispatchers.Main) {
+                                block.backgroundTintList =
+                                    resources.getColorStateList(R.color.on_block_execute, null)
+                            }
+
+                            // 패킷 전송
+                            CodingBlockUtils.sendDataByTag(tag)
+
+                            // 색 복구
+                            withContext(Dispatchers.Main) {
+                                block.backgroundTintList =
+                                    CodingBlockUtils.getOriginalColor(requireContext(), tag)
+                            }
+                        }
+
+                        CodingBlockUtils.setDroneDisarm()  // 시동 끄기
+                    }
+                }
+            }
+
 
         }
-
-
     }
 
 //    private fun getPacket(){

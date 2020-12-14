@@ -22,6 +22,7 @@ import timber.log.Timber
 class CodingDetailFragment : Fragment() {
     private lateinit var binding: FragmentCodingDetailBinding
     private lateinit var viewModel: CodingDetailViewModel
+    private lateinit var job: Job
 //    private var stop = 0
 
     override fun onCreateView(
@@ -73,22 +74,39 @@ class CodingDetailFragment : Fragment() {
             }
 
             // Calibration
+            buttonCalibration.setOnClickListener {
+                startSendingDefaultPacket()
+                CoroutineScope(Dispatchers.IO).launch {
+                    CodingBlockUtils.setDroneRgb()
+                    CodingBlockUtils.setDroneCalibration()  // 시동 켜기
+                }
+            }
 
             // Arm
+            buttonArm.setOnClickListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    CodingBlockUtils.setDroneArm()  // 시동 켜기
+                }
+            }
 
             // Disarm
+            buttonDisarm.setOnClickListener {
+                stopDrone()
+            }
 
 
             // 실행 버튼
             buttonExecute.setOnClickListener {
                 val viewGroup = codingContentLayout
 
-                if (viewGroup.childCount != 0) {
+                if (viewGroup.childCount != 0 && this@CodingDetailFragment::job.isInitialized && job.isActive) {
                     // Async
                     CoroutineScope(Dispatchers.IO).launch {
-                        CodingBlockUtils.setDroneRgb()
-                        CodingBlockUtils.setDroneCalibration()  // 시동 켜기
-                        CodingBlockUtils.setDroneArm()  // 시동 켜기
+                        // First Up
+                        stopSendingDefaultPacket()
+                        CodingBlockUtils.sendDataByTag("fu")
+                        startSendingDefaultPacket()
+                        delay(1000L)
 
                         viewGroup.children.forEach { block ->
                             val tag = block.tag.toString()
@@ -100,16 +118,19 @@ class CodingDetailFragment : Fragment() {
                             }
 
                             // 패킷 전송
+                            stopSendingDefaultPacket()
                             CodingBlockUtils.sendDataByTag(tag)
+                            startSendingDefaultPacket()
 
                             // 색 복구
                             withContext(Dispatchers.Main) {
                                 block.backgroundTintList =
                                     CodingBlockUtils.getOriginalColor(requireContext(), tag)
                             }
+                            delay(1000L)
                         }
 
-                        CodingBlockUtils.setDroneDisarm()  // 시동 끄기
+                        stopDrone()
                     }
                 }
             }
@@ -155,6 +176,34 @@ class CodingDetailFragment : Fragment() {
         }
     }
 
+    @ExperimentalUnsignedTypes
+    private fun startSendingDefaultPacket(){
+        if (!this::job.isInitialized || (this::job.isInitialized && !job.isActive)){
+            job = CoroutineScope(Dispatchers.IO).launch {
+                while (true){
+                    CodingBlockUtils.sendDataByTag("default")
+                    delay(50L)
+                }
+            }
+        }
+
+    }
+
+    @ExperimentalUnsignedTypes
+    private fun stopDrone(){
+        CoroutineScope(Dispatchers.IO).launch {
+            CodingBlockUtils.setDroneDisarm()
+        }
+        stopSendingDefaultPacket()
+    }
+
+    @ExperimentalUnsignedTypes
+    private fun stopSendingDefaultPacket(){
+        if (this::job.isInitialized && job.isActive){
+            job.cancel()
+        }
+    }
+
 
     private fun setDragListener() {
         binding.apply {
@@ -180,8 +229,10 @@ class CodingDetailFragment : Fragment() {
 //        stop = 0
     }
 
+    @ExperimentalUnsignedTypes
     override fun onDestroyView() {
         super.onDestroyView()
+        stopDrone()
         viewModel.onDestroyView()
         viewModel.setCodingBlocks(getCodingBlockList())
 //        stop = 1

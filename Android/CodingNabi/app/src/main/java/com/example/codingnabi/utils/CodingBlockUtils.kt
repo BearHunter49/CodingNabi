@@ -90,7 +90,6 @@ object CodingBlockUtils {
     @ExperimentalUnsignedTypes
     suspend fun setDroneArm() {
         socketClient.sendMessage(DroneConnectionUtils.getArmPacket())
-        delay(1000L)
     }
 
     /***
@@ -98,9 +97,7 @@ object CodingBlockUtils {
      */
     @ExperimentalUnsignedTypes
     suspend fun setDroneCalibration() {
-        delay(100L)
         socketClient.sendMessage(DroneConnectionUtils.getCalibrationPacket())
-        delay(4000L)
     }
 
     /***
@@ -109,7 +106,6 @@ object CodingBlockUtils {
     @ExperimentalUnsignedTypes
     suspend fun setDroneDisarm() {
         socketClient.sendMessage(DroneConnectionUtils.getDisArmPacket())
-        delay(500L)
     }
 
     /***
@@ -118,7 +114,6 @@ object CodingBlockUtils {
     @ExperimentalUnsignedTypes
     suspend fun setDroneRgb() {
         socketClient.sendMessage(DroneConnectionUtils.getSetRgbPacket())
-        delay(1000L)
     }
 
     /***
@@ -128,32 +123,36 @@ object CodingBlockUtils {
     suspend fun sendDataByTag(tag: String) {
         val time = System.currentTimeMillis()
         while ((System.currentTimeMillis() - time) / 1000 < 1) {
-            delay(50L)
+            delay(10L)
             socketClient.sendMessage(
                 when (tag) {
                     "u" -> {
-                        DroneConnectionUtils.getControlPacket(125, 125, 125, 150, 0)
+                        DroneConnectionUtils.getControlPacket(125, 125, 125, 145, 0)
                     }
                     "d" -> {
-                        DroneConnectionUtils.getControlPacket(125, 125, 125, 100, 0)
+                        DroneConnectionUtils.getControlPacket(125, 125, 125, 105, 0)
                     }
                     "l" -> {
-                        DroneConnectionUtils.getControlPacket(100, 125, 125, 125, 0)
+                        DroneConnectionUtils.getControlPacket(105, 125, 125, 125, 0)
                     }
                     "r" -> {
-                        DroneConnectionUtils.getControlPacket(150, 125, 125, 125, 0)
+                        DroneConnectionUtils.getControlPacket(145, 125, 125, 125, 0)
                     }
                     "f" -> {
-                        DroneConnectionUtils.getControlPacket(125, 100, 125, 125, 0)
+                        DroneConnectionUtils.getControlPacket(125, 145, 125, 125, 0)
                     }
                     "b" -> {
-                        DroneConnectionUtils.getControlPacket(125, 150, 125, 125, 0)
+                        DroneConnectionUtils.getControlPacket(125, 105, 125, 125, 0)
                     }
 //                "lp" -> {
 //                    DroneCommunicationUtils.getControlPacket(125, 125, 125, 70, 0)
 //                }
 //                "fc" -> {
 //                    DroneCommunicationUtils.getControlPacket(125, 125, 125, 70, 0)
+                    "fu" -> {
+                        DroneConnectionUtils.getControlPacket(125, 125, 125, 195, 0)
+                    }
+
                     else -> {  // Default
                         DroneConnectionUtils.getControlPacket(125, 125, 125, 125, 0)
                     }

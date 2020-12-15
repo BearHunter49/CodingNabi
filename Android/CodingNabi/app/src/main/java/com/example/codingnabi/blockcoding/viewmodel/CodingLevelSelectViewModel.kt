@@ -46,20 +46,24 @@ class CodingLevelSelectViewModel(application: Application) : AndroidViewModel(ap
     private suspend fun getProblems() {
         Timber.i("getProblems() called")
         withContext(Dispatchers.IO){
-            val basics = problemRepository.getProblemsByCategory("basic")
-            val advances = problemRepository.getProblemsByCategory("advance")
-            val loops = problemRepository.getProblemsByCategory("loop")
-            val functions = problemRepository.getProblemsByCategory("function")
-
-            withContext(Dispatchers.Main){
-                _basicProblems.value = basics
-                _advanceProblems.value = advances
-                _loopProblems.value = loops
-                _functionProblems.value = functions
-            }
-
+            _advanceProblems.postValue(problemRepository.getProblemsByCategory("advance"))
+            _loopProblems.postValue(problemRepository.getProblemsByCategory("loop"))
+            _functionProblems.postValue(problemRepository.getProblemsByCategory("function"))
+            _basicProblems.postValue(problemRepository.getProblemsByCategory("basic"))
         }
         _isDrawing.value = false
+    }
+
+    fun updateProblemCleared(category: String, level: Int){
+        Timber.i("updateProblemCleared() called")
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                val problem = problemRepository.getProblemByCategoryAndLevel(category, level)
+                val clearedProblem = Problem(problem.category, problem.level, problem.usableBlocks, problem.descriptionId, problem.videoId, 1)
+                problemRepository.updateProblemCleared(clearedProblem)
+            }
+            getProblems()
+        }
     }
 
     fun onStart(){

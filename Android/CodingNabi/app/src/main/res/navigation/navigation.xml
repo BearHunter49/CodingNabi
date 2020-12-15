@@ -40,34 +40,18 @@
             android:label="fragment_coding_detail"
             tools:layout="@layout/fragment_coding_detail">
             <action
-                android:id="@+id/action_codingDetailFragment_to_codingVideoFragment"
-                app:destination="@id/codingVideoFragment" />
-            <action
                 android:id="@+id/action_codingDetailFragment_to_codingRightFragment"
                 app:destination="@id/codingCorrectFragment"
                 app:popUpTo="@id/codingLevelSelectFragment" />
-            <action
-                android:id="@+id/action_codingDetailFragment_to_codingWrongFragment"
-                app:destination="@id/codingWrongFragment" />
             <action
                 android:id="@+id/action_codingDetailFragment_to_codingVideoActivity"
                 app:destination="@id/codingVideoActivity" />
         </fragment>
         <fragment
-            android:id="@+id/codingWrongFragment"
-            android:name="com.example.codingnabi.blockcoding.CodingWrongFragment"
-            android:label="fragment_coding_wrong"
-            tools:layout="@layout/fragment_coding_wrong" />
-        <fragment
             android:id="@+id/codingCorrectFragment"
             android:name="com.example.codingnabi.blockcoding.CodingCorrectFragment"
             android:label="fragment_coding_right"
             tools:layout="@layout/fragment_coding_correct" />
-        <fragment
-            android:id="@+id/codingVideoFragment"
-            android:name="com.example.codingnabi.blockcoding.CodingVideoFragment"
-            android:label="fragment_coding_video"
-            tools:layout="@layout/fragment_coding_video" />
         <activity
             android:id="@+id/codingVideoActivity"
             android:name="com.example.codingnabi.blockcoding.CodingVideoActivity"

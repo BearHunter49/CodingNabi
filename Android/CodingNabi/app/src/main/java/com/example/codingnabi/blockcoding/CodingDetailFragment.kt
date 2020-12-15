@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.codingnabi.R
 import com.example.codingnabi.blockcoding.viewmodel.CodingDetailViewModel
 import com.example.codingnabi.blockcoding.viewmodel.CodingDetailViewModelFactory
@@ -26,6 +28,8 @@ class CodingDetailFragment : Fragment() {
     private lateinit var viewModel: CodingDetailViewModel
     private var defaultJob: Job? = null
     private var codingJob: Job? = null
+    private var category: String? = null
+    private var level: Int? = null
 //    private var stop = 0
 
     override fun onCreateView(
@@ -34,15 +38,15 @@ class CodingDetailFragment : Fragment() {
     ): View? {
         binding = FragmentCodingDetailBinding.inflate(inflater)
 
-        val category = arguments?.getString("category")
-        val level = arguments?.getInt("level")
+        category = arguments?.getString("category")
+        level = arguments?.getInt("level")
 
         // Construct ViewModel
-        category?.let {
-            level?.let {
+        category?.let {c ->
+            level?.let {l ->
                 viewModel = ViewModelProvider(
                     this,
-                    CodingDetailViewModelFactory(requireActivity().application, category, level)
+                    CodingDetailViewModelFactory(requireActivity().application, c, l)
                 ).get(CodingDetailViewModel::class.java)
             }
         }
@@ -139,9 +143,13 @@ class CodingDetailFragment : Fragment() {
 
                                 landDrone()  // 착지
                             }
-                        } catch (e: SocketException){
+                        } catch (e: SocketException) {
                             Timber.e("Coding packet: $e")
-                            Toast.makeText(requireContext(), "Coding 패킷 overflow", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Coding 패킷 overflow",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             stopDrone()
                         }
                     }
@@ -150,7 +158,35 @@ class CodingDetailFragment : Fragment() {
 
             // 채점
             buttonTest.setOnClickListener {
+                progressBar.visibility = View.VISIBLE
 
+                CoroutineScope(Dispatchers.IO).launch {
+                    val codingBlockList = getCodingBlockTagList()
+                    val answerList = viewModel?.answer?.value?.toMutableList()
+                    var isCorrect = true
+
+                    if (codingBlockList.size != answerList?.size) isCorrect = false
+                    else {
+                        answerList.zip(codingBlockList).forEach { pair ->
+                            if (pair.first != pair.second) {
+                                isCorrect = false
+                                return@forEach
+                            }
+                        }
+                    }
+                    delay(1000L)
+
+                    withContext(Dispatchers.Main) {
+                        if (isCorrect) {
+                            val bundle = bundleOf("category" to category, "level" to level)
+                            findNavController().navigate(R.id.action_codingDetailFragment_to_codingRightFragment, bundle)
+                        } else {
+                            Toast.makeText(requireContext(), "틀렸습니다!", Toast.LENGTH_SHORT).show()
+                            progressBar.visibility = View.GONE
+                        }
+                    }
+
+                }
             }
 
 
@@ -252,7 +288,7 @@ class CodingDetailFragment : Fragment() {
         }
     }
 
-    private fun getCodingBlockList(): MutableList<String> {
+    private fun getCodingBlockTagList(): MutableList<String> {
         Timber.i("getCodingBlockList() Called")
         val blockList = mutableListOf<String>()
         binding.codingContentLayout.children.forEach {
@@ -274,7 +310,7 @@ class CodingDetailFragment : Fragment() {
         super.onDestroyView()
         stopDrone()
         viewModel.onDestroyView()
-        viewModel.setCodingBlocks(getCodingBlockList())
+        viewModel.setCodingBlocks(getCodingBlockTagList())
 //        stop = 1
     }
 

@@ -39,4 +39,6 @@
     <string name="text_button_calibration">수평계산</string>
     <string name="text_button_arm">시동켜기</string>
     <string name="text_button_disarm">시동끄기</string>
+
+    <string name="cleared_message">%1$s %2$d cleared!!</string>
 </resources>

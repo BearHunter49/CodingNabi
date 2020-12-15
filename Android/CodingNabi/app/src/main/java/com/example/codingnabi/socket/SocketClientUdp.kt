@@ -23,17 +23,16 @@ class SocketClientUdp(private val ip: InetAddress, private val port: Int) : Sock
     override fun receiveMessage(size: Int): String {
         val receiveMsg = ByteArray(size)
         val datagramPacket = DatagramPacket(receiveMsg, receiveMsg.size)
-        var result = ""
 
         try {
             socketUDP.receive(datagramPacket)
-            result = String(receiveMsg, 0, datagramPacket.length)
+            val result = String(receiveMsg, 0, datagramPacket.length)
             Timber.d("data: ${datagramPacket.data}, ip: ${datagramPacket.address}, port: ${datagramPacket.port}")
+
+            return result
         }catch (e: SocketException){
             throw e
         }
-
-        return result
     }
 
     override fun closeSocket() {

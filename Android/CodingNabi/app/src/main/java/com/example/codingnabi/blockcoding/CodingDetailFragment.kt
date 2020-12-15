@@ -61,7 +61,7 @@ class CodingDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Cannot move logic to ViewModel...
+        // I'll move these logic to ViewModel later...
         binding.apply {
 
             // Hint 버튼
@@ -146,6 +146,11 @@ class CodingDetailFragment : Fragment() {
                         }
                     }
                 }
+            }
+
+            // 채점
+            buttonTest.setOnClickListener {
+
             }
 
 

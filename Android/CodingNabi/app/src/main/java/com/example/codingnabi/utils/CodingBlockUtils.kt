@@ -84,7 +84,7 @@ object CodingBlockUtils {
      * Drone 시동 켜기
      */
     @ExperimentalUnsignedTypes
-    suspend fun setDroneArm() {
+    fun setDroneArm() {
         socketClient.sendMessage(DroneConnectionUtils.getArmPacket())
     }
 
@@ -92,7 +92,7 @@ object CodingBlockUtils {
      * Drone 수평 계산
      */
     @ExperimentalUnsignedTypes
-    suspend fun setDroneCalibration() {
+    fun setDroneCalibration() {
         socketClient.sendMessage(DroneConnectionUtils.getCalibrationPacket())
     }
 
@@ -100,7 +100,7 @@ object CodingBlockUtils {
      * Drone 시동 끄기
      */
     @ExperimentalUnsignedTypes
-    suspend fun setDroneDisarm() {
+    fun setDroneDisarm() {
         socketClient.sendMessage(DroneConnectionUtils.getDisArmPacket())
     }
 
@@ -108,7 +108,7 @@ object CodingBlockUtils {
      * Drone RGB 설정
      */
     @ExperimentalUnsignedTypes
-    suspend fun setDroneRgb() {
+    fun setDroneRgb() {
         socketClient.sendMessage(DroneConnectionUtils.getSetRgbPacket())
     }
 
@@ -119,26 +119,26 @@ object CodingBlockUtils {
     suspend fun sendDataByTag(tag: String) {
         val time = System.currentTimeMillis()
         while ((System.currentTimeMillis() - time) / 1000 < 1) {
-            delay(10L)
+            delay(30L)
             socketClient.sendMessage(
                 when (tag) {
                     "u" -> {
                         DroneConnectionUtils.getControlPacket(125, 125, 125, 165, 0)
                     }
                     "d" -> {
-                        DroneConnectionUtils.getControlPacket(125, 125, 125, 105, 0)
+                        DroneConnectionUtils.getControlPacket(125, 125, 125, 90, 0)
                     }
                     "l" -> {
-                        DroneConnectionUtils.getControlPacket(105, 125, 125, 125, 0)
+                        DroneConnectionUtils.getControlPacket(85, 125, 125, 125, 0)
                     }
                     "r" -> {
-                        DroneConnectionUtils.getControlPacket(145, 125, 125, 125, 0)
+                        DroneConnectionUtils.getControlPacket(160, 125, 125, 125, 0)
                     }
                     "f" -> {
-                        DroneConnectionUtils.getControlPacket(125, 165, 125, 125, 0)
+                        DroneConnectionUtils.getControlPacket(125, 175, 125, 125, 0)
                     }
                     "b" -> {
-                        DroneConnectionUtils.getControlPacket(125, 115, 125, 125, 0)
+                        DroneConnectionUtils.getControlPacket(125, 105, 125, 125, 0)
                     }
 //                "lp" -> {
 //                    DroneCommunicationUtils.getControlPacket(125, 125, 125, 70, 0)
@@ -148,7 +148,9 @@ object CodingBlockUtils {
                     "fu" -> {
                         DroneConnectionUtils.getControlPacket(125, 125, 125, 195, 0)
                     }
-
+                    "ld" -> {
+                        DroneConnectionUtils.getControlPacket(125, 125, 125, 65, 0)
+                    }
                     else -> {  // Default
                         DroneConnectionUtils.getControlPacket(125, 125, 125, 125, 0)
                     }

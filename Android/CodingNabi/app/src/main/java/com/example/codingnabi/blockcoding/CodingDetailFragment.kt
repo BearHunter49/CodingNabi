@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
@@ -18,11 +19,13 @@ import com.example.codingnabi.utils.DeleteImageDragListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.*
 import timber.log.Timber
+import java.net.SocketException
 
 class CodingDetailFragment : Fragment() {
     private lateinit var binding: FragmentCodingDetailBinding
     private lateinit var viewModel: CodingDetailViewModel
-    private lateinit var job: Job
+    private var defaultJob: Job? = null
+    private var codingJob: Job? = null
 //    private var stop = 0
 
     override fun onCreateView(
@@ -78,14 +81,14 @@ class CodingDetailFragment : Fragment() {
                 startSendingDefaultPacket()
                 CoroutineScope(Dispatchers.IO).launch {
                     CodingBlockUtils.setDroneRgb()
-                    CodingBlockUtils.setDroneCalibration()  // 시동 켜기
+                    CodingBlockUtils.setDroneCalibration()
                 }
             }
 
             // Arm
             buttonArm.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
-                    CodingBlockUtils.setDroneArm()  // 시동 켜기
+                    CodingBlockUtils.setDroneArm()
                 }
             }
 
@@ -99,38 +102,48 @@ class CodingDetailFragment : Fragment() {
             buttonExecute.setOnClickListener {
                 val viewGroup = codingContentLayout
 
-                if (viewGroup.childCount != 0 && this@CodingDetailFragment::job.isInitialized && job.isActive) {
-                    // Async
-                    CoroutineScope(Dispatchers.IO).launch {
-                        // First Up
-                        stopSendingDefaultPacket()
-                        CodingBlockUtils.sendDataByTag("fu")
-                        startSendingDefaultPacket()
-                        delay(1000L)
+                if (viewGroup.childCount != 0) {
+                    if (defaultJob == null) {  // 수평 계산 체크
+                        Toast.makeText(requireContext(), "수평계산을 먼저 해주세요!", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        try {
+                            codingJob = CoroutineScope(Dispatchers.IO).launch {
+                                takeOffDrone()  // 이륙
 
-                        viewGroup.children.forEach { block ->
-                            val tag = block.tag.toString()
+                                // 블록코딩 실행
+                                viewGroup.children.forEach { block ->
+                                    val tag = block.tag.toString()
 
-                            // 색 변경
-                            withContext(Dispatchers.Main) {
-                                block.backgroundTintList =
-                                    resources.getColorStateList(R.color.on_block_execute, null)
+                                    // 색 변경
+                                    withContext(Dispatchers.Main) {
+                                        block.backgroundTintList =
+                                            resources.getColorStateList(
+                                                R.color.on_block_execute,
+                                                null
+                                            )
+                                    }
+
+                                    // 패킷 전송
+                                    stopSendingDefaultPacket()
+                                    CodingBlockUtils.sendDataByTag(tag)
+                                    startSendingDefaultPacket()
+
+                                    // 색 복구
+                                    withContext(Dispatchers.Main) {
+                                        block.backgroundTintList =
+                                            CodingBlockUtils.getOriginalColor(requireContext(), tag)
+                                    }
+                                    delay(2000L)  // 호버링 계산 딜레이
+                                }
+
+                                landDrone()  // 착지
                             }
-
-                            // 패킷 전송
-                            stopSendingDefaultPacket()
-                            CodingBlockUtils.sendDataByTag(tag)
-                            startSendingDefaultPacket()
-
-                            // 색 복구
-                            withContext(Dispatchers.Main) {
-                                block.backgroundTintList =
-                                    CodingBlockUtils.getOriginalColor(requireContext(), tag)
-                            }
-                            delay(1000L)
+                        } catch (e: SocketException){
+                            Timber.e("Coding packet: $e")
+                            Toast.makeText(requireContext(), "Coding 패킷 overflow", Toast.LENGTH_SHORT).show()
+                            stopDrone()
                         }
-
-                        stopDrone()
                     }
                 }
             }
@@ -177,31 +190,53 @@ class CodingDetailFragment : Fragment() {
     }
 
     @ExperimentalUnsignedTypes
-    private fun startSendingDefaultPacket(){
-        if (!this::job.isInitialized || (this::job.isInitialized && !job.isActive)){
-            job = CoroutineScope(Dispatchers.IO).launch {
-                while (true){
-                    CodingBlockUtils.sendDataByTag("default")
-                    delay(50L)
-                }
-            }
-        }
-
+    private suspend fun takeOffDrone() {
+        stopSendingDefaultPacket()
+        CodingBlockUtils.sendDataByTag("fu")
+        startSendingDefaultPacket()
+        delay(2000L)  // 호버링 계산 딜레이
     }
 
     @ExperimentalUnsignedTypes
-    private fun stopDrone(){
+    private suspend fun landDrone() {
+        stopSendingDefaultPacket()
+        CodingBlockUtils.sendDataByTag("ld")
+        stopDrone()
+        delay(1000L)
+    }
+
+    @ExperimentalUnsignedTypes
+    private fun startSendingDefaultPacket() {
+        if (defaultJob == null) {
+            try {
+                defaultJob = CoroutineScope(Dispatchers.IO).launch {
+                    while (true) {
+                        CodingBlockUtils.sendDataByTag("default")
+                    }
+                }
+            } catch (e: SocketException) {
+                Timber.e("default packet: $e")
+                Toast.makeText(requireContext(), "Default 패킷 overflow", Toast.LENGTH_SHORT).show()
+                defaultJob?.cancel()
+            }
+
+        }
+    }
+
+    @ExperimentalUnsignedTypes
+    private fun stopDrone() {
         CoroutineScope(Dispatchers.IO).launch {
             CodingBlockUtils.setDroneDisarm()
         }
         stopSendingDefaultPacket()
+        codingJob?.cancel()
+        codingJob = null
     }
 
     @ExperimentalUnsignedTypes
-    private fun stopSendingDefaultPacket(){
-        if (this::job.isInitialized && job.isActive){
-            job.cancel()
-        }
+    private fun stopSendingDefaultPacket() {
+        defaultJob?.cancel()
+        defaultJob = null
     }
 
 

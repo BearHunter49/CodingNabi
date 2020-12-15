@@ -37,23 +37,19 @@ object CodingBlockUtils {
 
         if (childCount == 0) return 0  // First block
 
-        val positionList: MutableList<Pair<Int, Float>> = mutableListOf()
-        linearLayout.children.forEachIndexed { i, child ->
+        val positionList: MutableList<Float> = mutableListOf()
+        linearLayout.children.forEach { child ->
             Timber.d("${child.x + child.width / 2}, ${child.y + child.height / 2}")
 
             // *important* Must get view's Center!
-            positionList.add(Pair(i, child.y + child.height / 2))
+            positionList.add(child.y + child.height / 2)
         }
 
-        if (y < positionList.first().second) return 0  // 맨 위
-        if (y > positionList.last().second) return childCount  // 맨 아래
-
-        // 사이 비교
-        for (i in 0 until childCount - 1) {
-            if (positionList[i].second < y && y < positionList[i + 1].second) return i + 1
+        for (i in 0 until childCount){
+            if (y < positionList[i]) return i
         }
 
-        return 0
+        return childCount
     }
 
     /***
@@ -127,7 +123,7 @@ object CodingBlockUtils {
             socketClient.sendMessage(
                 when (tag) {
                     "u" -> {
-                        DroneConnectionUtils.getControlPacket(125, 125, 125, 145, 0)
+                        DroneConnectionUtils.getControlPacket(125, 125, 125, 165, 0)
                     }
                     "d" -> {
                         DroneConnectionUtils.getControlPacket(125, 125, 125, 105, 0)
@@ -139,10 +135,10 @@ object CodingBlockUtils {
                         DroneConnectionUtils.getControlPacket(145, 125, 125, 125, 0)
                     }
                     "f" -> {
-                        DroneConnectionUtils.getControlPacket(125, 145, 125, 125, 0)
+                        DroneConnectionUtils.getControlPacket(125, 165, 125, 125, 0)
                     }
                     "b" -> {
-                        DroneConnectionUtils.getControlPacket(125, 105, 125, 125, 0)
+                        DroneConnectionUtils.getControlPacket(125, 115, 125, 125, 0)
                     }
 //                "lp" -> {
 //                    DroneCommunicationUtils.getControlPacket(125, 125, 125, 70, 0)

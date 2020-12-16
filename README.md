@@ -6,6 +6,9 @@
 강재현 <br>
 양희산 <br>
 
+## Wiki
+[Link](https://github.com/BearHunter49/CodingNabi/wiki)
+<br>
 
 ## Directory
 ```

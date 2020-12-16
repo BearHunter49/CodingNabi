@@ -63,5 +63,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
+    // External Library
+    implementation 'kr.co.prnd:youtube-player-view:1.4.0'
 
 }

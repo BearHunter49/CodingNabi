@@ -33,7 +33,6 @@ object DatabaseCopier {
             path.parentFile?.mkdirs() ?: Timber.e("There is no ParentFile of $path")
         }
 
-        // DB File not exists
         copyDatabaseFile(context, path)
     }
 

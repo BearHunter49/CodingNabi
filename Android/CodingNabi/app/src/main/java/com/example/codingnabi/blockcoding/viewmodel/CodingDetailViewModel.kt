@@ -26,14 +26,17 @@ class CodingDetailViewModel(
     private val _purpose = MutableLiveData<String>()
     val purpose: LiveData<String> = _purpose
 
-    private val _hint = MutableLiveData<String>()
-    val hint: LiveData<String> = _hint
-
     private val _usableBlocks = MutableLiveData<List<String>>()
     val usableBlocks: LiveData<List<String>> = _usableBlocks
 
     private val _codingBlocks = MutableLiveData<MutableList<String>>()
     val codingBlocks: LiveData<MutableList<String>> = _codingBlocks
+
+    private val _hint = MutableLiveData<String>()
+    val hint: LiveData<String> = _hint
+
+    private val _answer = MutableLiveData<List<String>>()
+    val answer: LiveData<List<String>> = _answer
 
     // Repository
     private val problemRepository: ProblemRepository by lazy {
@@ -53,7 +56,12 @@ class CodingDetailViewModel(
     private var _isFirst = true
 
     // Video Url
-    private val _videos = hashMapOf<String, String>()
+    private var _videoUrl = ""
+
+    // Drone Test
+//    val droneRespond = MutableLiveData<String>()
+
+
 
 
     init {
@@ -71,13 +79,11 @@ class CodingDetailViewModel(
                 descriptionRepository.getDescriptionById(problem.descriptionId)
             val video: Video = videoRepository.getVideoById(problem.videoId)
 
-            withContext(Dispatchers.Main) {
-                _videos["top"] = video.topViewUrl
-                _videos["side"] = video.sideViewUrl
-                _purpose.value = description.goal
-                _hint.value = description.hint
-                _usableBlocks.value = problem.usableBlocks.split(",")
-            }
+            _videoUrl = video.url
+            _hint.postValue(description.hint)
+            _purpose.postValue(description.goal)
+            _usableBlocks.postValue(problem.usableBlocks.split(","))
+            _answer.postValue(description.answer.split("-"))
         }
         _isDrawing.value = false
     }
@@ -87,11 +93,10 @@ class CodingDetailViewModel(
     }
 
     fun seeVideoOfProblem(view: View) {
-        val bundle = bundleOf("top" to _videos["top"], "side" to _videos["side"])
+        val bundle = bundleOf("url" to _videoUrl)
         view.findNavController()
-            .navigate(R.id.action_codingDetailFragment_to_codingVideoFragment, bundle)
+            .navigate(R.id.action_codingDetailFragment_to_codingVideoActivity, bundle)
     }
-
 
     fun onStart() {
         if (!_isFirst) _isDrawing.value = false

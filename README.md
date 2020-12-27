@@ -10,6 +10,9 @@
 [Link](https://github.com/BearHunter49/CodingNabi/wiki)
 <br>
 
+## Notion
+[Link](https://www.notion.so/bearhunter49/a5e28dd8be84456cb7ff578fbd24a56d)
+
 ## Directory
 ```
 .
